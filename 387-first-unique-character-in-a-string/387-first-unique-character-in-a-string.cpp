@@ -1,14 +1,18 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<int,int> m;
-        for(int i=0; i<s.length(); i++)
-            m[s[i]]++;
+        unordered_map<char,pair<int,int>> m;
+        int ans = INT_MAX;
         for(int i=0; i<s.length(); i++)
         {
-            if(m[s[i]]==1)
-                return i;
+            m[s[i]].first++;
+            m[s[i]].second = i;
         }
-        return -1;
+        for(const auto& [c,s]:m)
+        {
+            if(s.first==1)
+                ans = min(ans,s.second);
+        }
+        return ans==INT_MAX ?-1 : ans;
     }
 };
