@@ -19,7 +19,7 @@ public:
         s.push(root);
         while(s.empty()==false)
         {
-            TreeNode* temp = s.top();
+            TreeNode*temp = s.top();
             if(temp->left!=NULL)
             {
                 s.push(temp->left);
@@ -27,11 +27,11 @@ public:
             }
             else
             {
-                TreeNode* temp = s.top();
-                res.push_back(temp->val);
+                TreeNode*t = s.top();
+                res.push_back(t->val);
                 s.pop();
-                if(temp->right!=NULL)
-                    s.push(temp->right);
+                if(t->right!=NULL)
+                    s.push(t->right);
             }
         }
         return res;
