@@ -11,24 +11,20 @@
  */
 class Solution {
 public:
+    void solve(TreeNode* root, int &k, int &res)
+    {
+        if(!root)
+            return;
+        solve(root->left, k, res);
+        if(k==0)
+            return;
+        res = root->val;
+        solve(root->right,--k,res);
+    }
+    
     int kthSmallest(TreeNode* root, int k) {
-        stack<TreeNode*> s;
-        s.push(root);
-        int count = k;
-        while(!s.empty() || root)
-        {
-            while(root!=NULL)
-            {
-                s.push(root);
-                root = root->left;
-            }
-            TreeNode*temp = s.top();
-            s.pop();
-            count--;
-            if(count==0)
-                return temp->val;
-            root = temp->right;
-        }
-        return 0;
+        int res=0;
+        solve(root,k,res);
+        return res;
     }
 };
