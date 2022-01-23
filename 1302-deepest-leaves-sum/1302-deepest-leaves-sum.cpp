@@ -11,25 +11,27 @@
  */
 class Solution {
 public:
-    int height(TreeNode*root)
-    {
+    int deepestLeavesSum(TreeNode* root) {
         if(root==NULL)
             return 0;
-        return max(height(root->left), height(root->right))+1;
-    }
-    void solve(TreeNode*root, int h, int &ans)
-    {
-        if(root==NULL)
-            return;
-        if(h==1)
-           ans = ans + root->val; 
-        solve(root->left , h-1 , ans);
-        solve(root->right , h-1 , ans);
-    }
-    int deepestLeavesSum(TreeNode* root) {
-        int h = height(root);
-        int ans = 0;
-        solve(root, h,ans);
+        queue<TreeNode*> q;
+        q.push(root);
+        int ans;
+        while(!q.empty())
+        {
+            int len = q.size();
+            ans = 0;
+            for(int i=0; i<len; i++)
+            {
+                TreeNode*temp = q.front();
+                q.pop();
+                ans += temp->val;
+                if(temp->left!=NULL)
+                    q.push(temp->left);
+                if(temp->right!=NULL)
+                    q.push(temp->right);
+            }
+        }
         return ans;
     }
 };
