@@ -11,27 +11,18 @@
  */
 class Solution {
 public:
-    void solve(TreeNode*root, stack<TreeNode*> &s)
+    void solve(TreeNode*root, int &curr)
     {
         if(root==NULL)
             return;
-        solve(root->left, s);
-        s.push(root);
-        solve(root->right, s);
+        solve(root->right, curr);
+        root->val += curr;
+        curr = root->val;
+        solve(root->left, curr);
     }
-    
     TreeNode* bstToGst(TreeNode* root) {
-        stack<TreeNode*> s;
-        solve(root,s);
-        while(s.size()>1)
-        {
-            TreeNode*x = s.top();
-            s.pop();
-            TreeNode*y = s.top();
-            s.pop();
-            y->val += x->val;
-            s.push(y);
-        }
+        int curr = 0;
+        solve(root,curr);
         return root;
     }
 };
