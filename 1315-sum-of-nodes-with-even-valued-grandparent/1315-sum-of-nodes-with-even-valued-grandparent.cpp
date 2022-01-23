@@ -11,43 +11,19 @@
  */
 class Solution {
 public:
-    int height(TreeNode* root)
+    void solve(TreeNode* current, TreeNode*parent, TreeNode*gparent,int &ans)
     {
-        if(root== NULL)
-            return 0;
-        return max(height(root->left),height(root->right))+1;
+        if(current==NULL)
+            return;
+        if(gparent!=NULL && gparent->val%2==0)
+            ans += current->val;
+        solve(current->left, current,parent,ans);
+        solve(current->right,current, parent,ans);
+        
     }
     int sumEvenGrandparent(TreeNode* root) {
-        int h = height(root)-2;
-        queue<TreeNode*> q;
-        q.push(root);
         int ans = 0;
-        while(h>0 && q.empty()==false)
-        {
-            int count = q.size();
-            for(int i=0; i<count; i++)
-            {
-                TreeNode*temp = q.front();
-                q.pop();
-                int x = temp->val;
-                if(x%2==0)
-                {
-                    if(temp->left!=NULL && temp->left->left!=NULL)
-                        ans += temp->left->left->val;
-                    if(temp->left!=NULL && temp->left->right!=NULL)
-                        ans += temp->left->right->val;
-                    if(temp->right!=NULL && temp->right->left!=NULL)
-                        ans += temp->right->left->val;
-                    if(temp->right!=NULL && temp->right->right!=NULL)
-                        ans += temp->right->right->val;
-                }
-                if(temp->left!=NULL)
-                    q.push(temp->left);
-                if(temp->right!=NULL)
-                    q.push(temp->right);
-            }
-            h--;
-        }
+        solve(root,NULL,NULL,ans);
         return ans;
     }
 };
