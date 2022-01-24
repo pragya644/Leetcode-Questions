@@ -11,59 +11,29 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root, vector<int> &v)
+    void solve(TreeNode*root, stack<TreeNode*> &s)
     {
-        if(root==NULL)
-            return;
-        solve(root->left,v);
-        v.push_back(root->val);
-        solve(root->right,v);
-    }
-    
-    void merge(vector<int> v1, vector<int> v2, vector<int> &ans)
-    {
-        int i=0,j=0;
-        int n = v1.size();
-        int m = v2.size();
-        while(i<n && j<m)
+        while(root!=NULL)
         {
-            if(v1[i]<v2[j])
-            {
-                ans.push_back(v1[i]);
-                i++;
-            }
-            else if(v2[j]<v1[i])
-            {
-                ans.push_back(v2[j]);
-                j++;
-            }
-            else
-            {
-                ans.push_back(v1[i]);
-                ans.push_back(v2[j]);
-                i++;
-                j++;
-            }
-        }
-        while(i<n)
-        {
-            ans.push_back(v1[i]);
-            i++;
-        }
-        while(j<m)
-        {
-            ans.push_back(v2[j]);
-            j++;
+            s.push(root);
+            root = root->left;
         }
     }
-    
     vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
-        vector<int> v1;
-        vector<int> v2;
-        solve(root1,v1);
-        solve(root2,v2);
-        vector<int> ans;
-        merge(v1,v2,ans);
-        return ans;
+        vector<int> res;
+        stack<TreeNode*> s1;
+        stack<TreeNode*> s2;
+        solve(root1,s1);
+        solve(root2,s2);
+        while(!s1.empty() || !s2.empty())
+        {
+            stack<TreeNode*> &s = s2.empty()?s1:s1.empty()?s2 :
+            s1.top()->val < s2.top()->val ? s1 : s2;
+            TreeNode* temp = s.top();
+            s.pop();
+            res.push_back(temp->val);
+            solve(temp->right,s);
+        }
+        return res;
     }
 };
