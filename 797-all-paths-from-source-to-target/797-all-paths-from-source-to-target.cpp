@@ -1,19 +1,28 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& graph,vector<vector<int>> &ans,vector<int>& path, int u )
+    void bfs(vector<vector<int>>& graph,vector<vector<int>> &ans )
     {
-        path.push_back(u);
-        if(u==graph.size()-1)
-            ans.push_back(path);
-        else 
-            for(auto v: graph[u])
-                dfs(graph,ans,path,v);
-        path.pop_back();
+        queue<vector<int>> q;
+        q.push({0});
+        while(q.empty()==false)
+        {
+            vector<int> path = q.front();
+            q.pop();
+            int u= path[path.size()-1]; //last node
+            for(auto v : graph[u])
+            {
+                path.push_back(v);
+                if(v==graph.size()-1)
+                    ans.push_back(path);
+                else
+                    q.push(path);
+                path.pop_back();
+            }
+        }
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         vector<vector<int>> ans;
-        vector<int> path;
-        dfs(graph, ans, path, 0);
+        bfs(graph, ans);
         return ans;
     }
 };
