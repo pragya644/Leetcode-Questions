@@ -1,19 +1,31 @@
 class Solution {
 public:
-    vector<int> minOperations(string s) {
-        int n = s.length();
-        vector<int> res;
-        for(int i=0; i<n; i++)
+    vector<int> minOperations(string boxes) {
+        int n = boxes.size();
+        vector<int> res(n);
+        int ahead = 0;
+        int behind = 0;
+        for(int i=0; i<boxes.length(); i++)
         {
-            int temp = 0;
-            for(int j=0; j<n; j++)
+            if(boxes[i]=='1')
             {
-                if(s[j]=='1')
-                {
-                    temp += abs(i-j);
-                }
+                ahead++;
+                res[0] += i;
             }
-            res.push_back(temp);
+        }
+        if(boxes[0]=='1')
+        {
+            ahead--;
+            behind++;
+        }
+        for(int i=1; i<boxes.length(); i++)
+        {
+            res[i] = res[i-1]-ahead+behind;
+            if(boxes[i]=='1')
+            {
+                ahead--;
+                behind++;
+            }
         }
         return res;
     }
