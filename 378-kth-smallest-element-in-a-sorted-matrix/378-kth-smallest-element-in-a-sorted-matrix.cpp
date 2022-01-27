@@ -1,10 +1,10 @@
 class Solution {
 public:
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        priority_queue<int> pq;
-        int check = 0;
+        priority_queue<int, vector<int>, greater<int>> pq;
         int n = matrix.size();
         int i = 0;
+        k = (n*n)-k+1;
         while(i<n)
         {
             int j = 0;
