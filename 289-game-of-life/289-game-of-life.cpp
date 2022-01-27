@@ -2,31 +2,17 @@ class Solution {
 public:
     int negihbours(int i,int j,int m,int n,vector<vector<int>>& board)
     {
-        int count = 0 ;
-        if(i>0)
-            if(board[i-1][j]==1 || board[i-1][j]==3 ) 
-                count++;
-        if(j>0)
-            if(board[i][j-1]==1 || board[i][j-1]==3) 
-                count++;
-        if(i<m-1)
-            if(board[i+1][j]==1 || board[i+1][j]==3) 
-                count++;
-        if(j<n-1)
-            if(board[i][j+1]==1 || board[i][j+1]==3) 
-                count++;
-        if(i>0 && j>0)
-            if(board[i-1][j-1]==1 || board[i-1][j-1]==3) 
-                count++;
-        if(i<m-1 && j<n-1)
-            if(board[i+1][j+1]==1 || board[i+1][j+1]==3) 
-                count++;
-        if(i>0 && j<n-1)
-            if(board[i-1][j+1]==1 || board[i-1][j+1]==3) 
-                count++;
-        if(i<m-1 && j>0)
-            if(board[i+1][j-1]==1 || board[i+1][j-1]==3) 
-                count++;
+        int count = 0;
+        for(int a=i-1; a<i+2; a++)
+        {
+            for(int b = j-1; b<j+2; b++)
+            {
+                if((a==i && b==j) || a<0 || b<0 || a>=m || b>=n)
+                    continue;
+                if(board[a][b]==1 || board[a][b]==3)
+                    count++;
+            }
+        }
         return count;
     }
     
