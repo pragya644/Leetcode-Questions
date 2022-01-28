@@ -1,18 +1,18 @@
 class Solution {
 public:
     int minSteps(string s, string t) {
-        map<char,int> m;
+        int a[26] = {0};
         int ans = 0;
         for(int i=0; i<s.length(); i++)
-            m[s[i]]++;
-        for(int i=0; i<t.length(); i++)
         {
-            auto it = m.find(t[i]);
-            if(it!=m.end() && it->second>0)
-                m[t[i]]--;
+            a[s[i]-'a']++;
+            a[t[i]-'a']--;
         }
-        for(auto x: m)
-            ans += x.second;
+        for(int i=0; i<26; i++)
+        {
+            if(a[i]>0)
+                ans += a[i];
+        }
         return ans;
     }
 };
