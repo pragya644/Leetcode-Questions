@@ -9,19 +9,12 @@ public:
         }
         for(int i=0; i<queries.size(); i++)
         {
-            for(int j=0; j<m; j++)
-            {
-                if(v[j]==queries[i])
-                {
-                    res.push_back(j);
-                    int temp = v[j];
-                    vector<int>::iterator it;
-                    it = v.begin()+j;
-                    v.erase(it);
-                    v.insert(v.begin(),temp);
-                    break;
-                }
-            }
+            int currval = queries[i];
+            auto it = find(v.begin(),v.end(),currval);
+            int idx = it-v.begin();
+            res.push_back(idx);
+            v.erase(it);
+            v.insert(v.begin(),currval);
         }
         return res;
     }
