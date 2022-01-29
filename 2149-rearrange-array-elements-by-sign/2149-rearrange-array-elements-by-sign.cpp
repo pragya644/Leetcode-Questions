@@ -1,6 +1,9 @@
 class Solution {
 public:
     vector<int> rearrangeArray(vector<int>& nums) {
+        // int m = nums.size();
+        // time complexity = O(m)+O(n);
+        // space complexity = O(m);
         vector<int> pos;
         vector<int> neg;
         for(int i=0; i<nums.size(); i++)
