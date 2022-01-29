@@ -1,29 +1,23 @@
 class Solution {
 public:
     vector<int> rearrangeArray(vector<int>& nums) {
-        // int m = nums.size();
-        // time complexity = O(m)+O(n);
-        // space complexity = O(m);
-        vector<int> pos;
-        vector<int> neg;
+        int n = nums.size();
+        vector<int> result(n,0);
+        int positive = 0;
+        int negative = 1;
         for(int i=0; i<nums.size(); i++)
         {
             if(nums[i]>0)
-                pos.push_back(nums[i]);
+            {
+                result[positive] = nums[i];
+                positive = positive + 2;
+            }
             else
-                neg.push_back(nums[i]);
+            {
+                result[negative] = nums[i];
+                negative = negative + 2;
+            }
         }
-        int n = pos.size();
-        int idx = 0;
-        for(int i=0; i<n; i++)
-        {
-            if(idx%2==0)
-                nums[idx] = pos[i];
-            idx++;
-            if(idx%2!=0)
-                nums[idx] = neg[i];
-            idx++;
-        }
-        return nums;
+        return result;
     }
 };
