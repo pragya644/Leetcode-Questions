@@ -6,7 +6,7 @@ public:
         int n = mat[0].size();
         for(int i=m-1; i>=0; i--)
         {
-            for(int j=n-1; j>-0; j--)
+            for(int j=n-1; j>0; j--)
             {
                 if(mat[i][0]==0 || mat[0][j]==0)
                     mat[i][j] = 0;
@@ -41,7 +41,7 @@ public:
         if(col0==true)
         {
             for(int i=0; i<m; i++)
-                mat[i][0] = 0;
+               mat[i][0] = 0;
         }
     }
 };
