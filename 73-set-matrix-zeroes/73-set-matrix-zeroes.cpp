@@ -1,19 +1,15 @@
 class Solution {
 public:
-    
-    void solve(vector<int> &row, vector<int> &col,vector<vector<int>> &mat)
+    void help(vector<vector<int>> &mat)
     {
         int m = mat.size();
         int n = mat[0].size();
-        for(int i=0; i<m; i++)
+        for(int i=m-1; i>=0; i--)
         {
-            for(int j=0; j<n; j++)
+            for(int j=n-1; j>-0; j--)
             {
-                if(mat[i][j]==0)
-                {
-                    row[i] = 1;
-                    col[j] = 1;
-                }
+                if(mat[i][0]==0 || mat[0][j]==0)
+                    mat[i][j] = 0;
             }
         }
     }
@@ -21,22 +17,31 @@ public:
     void setZeroes(vector<vector<int>>& mat) {
         int m = mat.size();
         int n = mat[0].size();
-        vector<int> row(m,0);
-        vector<int> col(n,0);
-        solve(row,col,mat);
+        bool col0 = false;
         for(int i=0; i<m; i++)
         {
-            if(row[i]==1)
+            if(mat[i][0]==0)
             {
-                for(int j=0; j<n; j++)
-                    mat[i][j] = 0;
+                col0 = true;
+                break;
             }
         }
-        for(int j=0; j<n; j++)
+        for(int i=0; i<m; i++)
         {
-            if(col[j]==1)
-                for(int i=0; i<m; i++)
-                    mat[i][j] = 0;
+            for(int j=1; j<n; j++)
+            {
+                if(mat[i][j]==0)
+                {
+                    mat[i][0] = 0;
+                    mat[0][j] = 0;
+                }
+            }
+        }
+        help(mat);
+        if(col0==true)
+        {
+            for(int i=0; i<m; i++)
+                mat[i][0] = 0;
         }
     }
 };
