@@ -108,32 +108,48 @@ struct Node{
 };
 */
 
-/*  Function which returns the  root of 
-    the flattened linked list. */
+Node* merge(Node *root1, Node *root2)
+{
+    Node *ans = new Node(0);
+    Node* temp = ans;
+    while(root1!=NULL && root2!=NULL)
+    {
+        if(root1->data <= root2->data && root1!=NULL)
+        {
+            temp->bottom = root1;
+            root1 = root1->bottom;
+            temp = temp->bottom;
+        }
+        else if(root1->data>root2->data && root2!=NULL)
+        {
+            temp->bottom = root2;
+            root2 = root2->bottom;
+            temp = temp->bottom;
+        }
+    }
+    while(root1!=NULL)
+    {
+        temp->bottom = root1;
+        root1 = root1->bottom;
+        temp = temp->bottom;
+    }
+    while(root2!=NULL)
+    {
+        temp->bottom = root2;
+        root2 = root2->bottom;
+        temp = temp->bottom;
+    }
+    return ans->bottom;
+}
+
 Node *flatten(Node *root)
 {
-   priority_queue<int,vector<int>, greater<int>> pq;
-   Node * temp = root;
-   while(temp!=NULL)
+   if(root->next==NULL || root==NULL)
    {
-       pq.push(temp->data);
-       Node *list = temp->bottom;
-       while(list!=NULL)
-       {
-           pq.push(list->data);
-           list = list->bottom;
-       }
-       temp = temp->next;
+       return root;
    }
-   Node *ans = new Node(0);
-   Node *left = ans;
-   while(pq.empty()==false)
-   {
-       int x = pq.top();
-       pq.pop();
-       left->bottom = new Node(x);
-       left = left->bottom;
-   }
-   return ans->bottom;
+   Node*head = flatten(root->next);
+   Node*merge_head = merge(root,head);
+   return merge_head;
 }
 
