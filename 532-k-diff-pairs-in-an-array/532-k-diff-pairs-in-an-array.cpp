@@ -6,22 +6,19 @@ public:
         for(int i=0; i<n; i++)
             m[nums[i]]++;
         int count = 0;
-        sort(nums.begin(), nums.end());
-        for(int i=0; i<n; i++)
+        if(k!=0)
         {
-            if(i>0 && nums[i]==nums[i-1])
-                continue;
-            int diff = nums[i]-k;
-            if(m.find(diff)!=m.end())
+            for(auto x: m)
             {
-                if(diff==nums[i])
-                {
-                    if(m[diff]>1)
-                        count++;
-                }
-                else
+                if(m.find(x.first+k)!=m.end())
                     count++;
             }
+        }
+        else
+        {
+            for(auto x: m)
+                if(x.second>1)
+                    count++;
         }
         return count;
     }
