@@ -1,29 +1,31 @@
 class Solution {
 public:
-    void perm(vector<vector<int>> &ans, vector<int> &temp, int check[], vector<int> &nums)
+    void solve(vector<int> &nums,vector<int> &vis,vector<int>&temp, vector<vector<int>> &res)
     {
         if(temp.size()==nums.size())
-            ans.push_back(temp);
-        for(int i=0; i<nums.size(); i++)
         {
-            if(check[i]==0)
+            res.push_back(temp);
+            return;
+        }
+        for(int j=0; j<nums.size(); j++)
+        {
+            if(vis[j]==0)
             {
-                temp.push_back(nums[i]);
-                check[i] = 1;
-                perm(ans,temp,check,nums);
+                temp.push_back(nums[j]);
+                vis[j] = 1;
+                solve(nums,vis,temp,res);
+                vis[j] = 0;
                 temp.pop_back();
-                check[i] = 0;
             }
         }
     }
     
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> ans;
+        vector<vector<int>> res;
         vector<int> temp;
-        int check[nums.size()];
-        for(int i=0; i<nums.size(); i++)
-            check[i] = 0;
-        perm(ans,temp, check, nums);
-        return ans;
+        int n = nums.size();
+        vector<int> vis(n,0);
+        solve(nums,vis,temp,res);
+        return res;
     }
 };
