@@ -1,41 +1,36 @@
 class Solution {
 public:
-    vector<pair<int,int>> direction{ {1,0}, {0,1},{-1,0}, {0,-1} };
     
-    void bfs(vector<vector<char>> &mat,int i,int j)
+    void dfs(vector<vector<char>> &grid, int i, int j)
     {
-        mat[i][j] = '2';
-        queue<pair<int,int>> q;
-        q.push({i,j});
-        while(q.empty()==false)
-        {
-            pair<int,int> old = q.front();
-            q.pop();
-            for(auto d: direction)
-            {
-                int x = old.first + d.first;
-                int y = old.second + d.second;
-                if((x<mat.size() && x>=0 && y<mat[0].size() && y>=0) && mat[x][y]=='1')
-                {
-                    mat[x][y] = '2';
-                    q.push({x,y});
-                }
-            }
-        }
+        if(grid[i][j]=='2' || grid[i][j]=='0')
+            return;
+        grid[i][j] = '2';
+        if(i-1>=0)
+            dfs(grid, i-1, j);
+        if(j-1>=0)
+            dfs(grid, i, j-1);
+        if(i+1<grid.size())
+            dfs(grid, i+1, j);
+        if(j+1<grid[0].size())
+            dfs(grid, i, j+1);
     }
+    
     int numIslands(vector<vector<char>>& grid) {
-        int res = 0;
-        for(int i=0; i<grid.size(); i++)
+        int ans = 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        for(int i=0; i<m; i++)
         {
-            for(int j=0; j<grid[0].size(); j++)
+            for(int j=0; j<n; j++)
             {
                 if(grid[i][j]=='1')
                 {
-                    bfs(grid,i,j);
-                    res++;
+                    dfs(grid,i,j);
+                    ans++;
                 }
             }
         }
-        return res;
+        return ans;
     }
 };
