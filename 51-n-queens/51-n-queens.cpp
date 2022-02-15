@@ -1,6 +1,7 @@
 class Solution {
 public:
-    bool isvalid(int row,int col, vector<string> temp,int n)
+    
+    bool isvalid(int row, int col, int n, vector<string> &temp)
     {
         int x = row, y = col;
         while(x>=0 && y>=0)
@@ -10,11 +11,10 @@ public:
             x--;
             y--;
         }
-        x = row;
-        y = col;
+        x = row, y = col;
         while(y>=0)
         {
-            if(temp[x][y]=='Q')
+            if(temp[row][y]=='Q')
                 return false;
             y--;
         }
@@ -29,7 +29,7 @@ public:
         return true;
     }
     
-    void solve(vector<string> &temp,vector<vector<string>>&res,int n,int col)
+    void solve(vector<string> &temp, vector<vector<string>> &res, int col,int n)
     {
         if(col==n)
         {
@@ -38,10 +38,10 @@ public:
         }
         for(int row = 0; row<n; row++)
         {
-            if(isvalid(row,col,temp,n))
+            if(isvalid(row,col, n, temp))
             {
                 temp[row][col] = 'Q';
-                solve(temp,res,n,col+1);
+                solve(temp, res, col+1, n);
                 temp[row][col] = '.';
             }
         }
@@ -50,10 +50,12 @@ public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> res;
         vector<string> temp;
-        string s(n, '.');
+        string s(n,'.');
         for(int i=0; i<n; i++)
+        {
             temp.push_back(s);
-        solve(temp,res,n,0);
+        }
+        solve(temp, res, 0, n);
         return res;
     }
 };
