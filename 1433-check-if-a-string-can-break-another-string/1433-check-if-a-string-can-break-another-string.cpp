@@ -1,26 +1,31 @@
 class Solution {
 public:
-    bool checkIfCanBreak(string s1, string s2) {
-        int count1 = 0;
-        int count2 = 0;
-        int neutral = 0;
-        sort(s1.begin(), s1.end());
-        sort(s2.begin(), s2.end());
-        int n1 = s1.length();
-        int n2 = s2.length();
-        if(n1!=n2)
-            return false;
-        for(int i=0; i<n1; i++)
+    
+    bool solve(vector<int> &s1, vector<int> &s2)
+    {
+        int diff = 0;
+        for(int i=25; i>=0; i--)
         {
-            if(s1[i]>s2[i])
-                count1++;
-            else if(s2[i]>s1[i])
-                count2++;
-            else
-                neutral++;
+            diff += s1[i] - s2[i];
+            if(diff<0)
+                return false;
         }
-        if(count1==(n1-neutral) || count2==(n1-neutral))
-            return true;
-        return false;
+        return true;
+    }
+    
+    vector<int> countfreq(string s)
+    {
+        vector<int> v(26,0);
+        for(int i=0; i<s.length(); i++)
+        {
+            v[s[i]-'a']++;
+        }
+        return v;
+    }
+    
+    bool checkIfCanBreak(string s1, string s2) {
+        auto freq1 = countfreq(s1);
+        auto freq2 = countfreq(s2);
+        return solve(freq1, freq2) || solve(freq2, freq1);
     }
 };
