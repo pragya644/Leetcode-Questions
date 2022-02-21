@@ -2,10 +2,10 @@ class Solution {
 public:
     char findTheDifference(string s, string t) {
         char r = 0;
-        for(char c: s)
-            r = r^c;
-        for(char c: t)
-            r = r^c;
+        for(int i=0; i<s.length(); i++)
+            r = r^s[i];
+        for(int i=0; i<t.length(); i++)
+            r = r^t[i];
         return r;
     }
 };
