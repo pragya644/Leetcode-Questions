@@ -1,9 +1,9 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
+        int ans = 0;
         unordered_set<int> s;
         int n = nums.size();
-        int res = 0;
         for(int i=0; i<n; i++)
             s.insert(nums[i]);
         for(int i=0; i<n; i++)
@@ -17,9 +17,9 @@ public:
                     temp++;
                     count++;
                 }
-                res = max(res,count);
+                ans = max(ans, count);
             }
         }
-        return res;
+        return ans;
     }
 };
