@@ -5,7 +5,7 @@ public:
         for(int i=0; i<columnTitle.length(); i++)
         {
             ans = ans*26;
-            ans += columnTitle[i]- 'A' + 1; 
+            ans += columnTitle[i]-'A'+1;
         }
         return ans;
     }
