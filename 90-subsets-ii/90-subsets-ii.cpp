@@ -1,23 +1,27 @@
 class Solution {
 public:
-    void backtracking(vector<int> &nums, int i, vector<int> &temp, vector<vector<int>> &res)
+    void solve(vector<vector<int>> &ans, vector<int> &temp, int i, vector<int> &nums)
     {
-        res.push_back(temp);
+        if(i>nums.size())
+        {
+            return;
+        }
+        ans.push_back(temp);
         for(int j=i; j<nums.size(); j++)
         {
             if(j!=i && nums[j]==nums[j-1])
                 continue;
             temp.push_back(nums[j]);
-            backtracking(nums,j+1,temp,res);
+            solve(ans, temp, j+1, nums);
             temp.pop_back();
         }
     }
     
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        vector<vector<int>> res;
+        vector<vector<int>> ans;
         vector<int> temp;
-        backtracking(nums,0,temp,res);
-        return res;
+        solve(ans, temp, 0, nums);
+        return ans;
     }
 };
