@@ -10,9 +10,9 @@
  */
 class Solution {
 public:
-    int countnode(ListNode* head)
+    int countnodes(ListNode* head)
     {
-        ListNode* temp = head;
+        ListNode*temp = head;
         int count = 0;
         while(temp!=NULL)
         {
@@ -24,25 +24,23 @@ public:
     
     ListNode* rotateRight(ListNode* head, int k) {
         if(head==NULL)
-            return head;
-        ListNode* temp = head;
-        int count = 1;
-        while(temp->next!=NULL)
-        {
-            count++;
-            temp = temp->next;
-        }
-        temp->next = head;
+            return NULL;
+        int count = countnodes(head);
         k = k%count;
-        ListNode* node = head;
-        int n = count-k-1;
-        while(n>0)
+        ListNode* temp;
+        int left = count-k-1;
+        ListNode* curr = head;
+        while(curr->next!=NULL)
+            curr = curr->next;
+        curr->next = head;   // joint the last node with the head and made it circular!
+        temp = head;
+        while(left!=0)
         {
-            node = node->next;
-            n--;
+            temp = temp->next;
+            left--;
         }
-        ListNode* first = node->next;
-        node->next = NULL;
-        return first;
+        ListNode* ans = temp->next;
+        temp->next = NULL;
+        return ans;
     }
 };
