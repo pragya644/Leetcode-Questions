@@ -42,8 +42,8 @@ public:
             return {new TreeNode()};
         if(n%2==0)
             return {};
-        // if(n==3)
-        //     return {new TreeNode(), new TreeNode(), new TreeNode()};
+        if(n==3)
+            return {new TreeNode(0,new TreeNode(), new TreeNode())};
         return solve(n);
         
     }
