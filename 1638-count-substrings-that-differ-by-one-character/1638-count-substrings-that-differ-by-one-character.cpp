@@ -8,14 +8,13 @@ public:
         {
             for(int j=0; j<m; j++)
             {
-                int diff = 0;
-                for(int k=0; k<min((n-i), (m-j)); k++)
-                {
-                    if(s[k+i]!=t[k+j])
-                        diff++;
-                    if(diff>1)
-                        break;
-                    ans += diff;
+                if(s[i]!=t[j]){
+                int l = 1, r = 1;
+                while(min(i-l,j-l)>=0 && s[i-l]==t[j-l])
+                    l++;
+                while(i+r<n && j+r<m && s[i+r]==t[j+r])
+                    r++;
+                ans += l*r;
                 }
             }
         }
