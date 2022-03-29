@@ -1,1 +1,1 @@
-i can skip the last stair because we can jump by two
+​
