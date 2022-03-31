@@ -2,15 +2,16 @@ class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) {
         int n = arr.size();
-        int sum = 0;
-        int val = 0;
         int count = 0;
+        int maxi = INT_MIN;
         for(int i=0; i<n; i++)
         {
-            sum += i;
-            val += arr[i];
-            if(sum==val)
+            maxi = max(maxi,arr[i]);
+            if(maxi==i)
+            {
                 count++;
+                maxi = 0;
+            }
         }
         return count;
     }
