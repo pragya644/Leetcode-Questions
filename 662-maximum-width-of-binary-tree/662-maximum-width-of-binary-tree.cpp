@@ -30,7 +30,7 @@ class Solution {
             if(i==size-1)
                 last=id;
             if(node->left)
-                q.push({node->left,(long long int)id*2+1});
+                q.push({node->left,(long long int)id*2+1}); //id*2+1 is indices of these nodes
             if(node->right)
                 q.push({node->right,(long long int)id*2+2});
         }
