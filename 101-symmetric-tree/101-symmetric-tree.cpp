@@ -12,7 +12,7 @@
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-        if(root == NULL)
+        if(root==NULL)
             return true;
         if(root->left==NULL && root->right==NULL)
             return true;
@@ -23,20 +23,20 @@ public:
         q.push(root->right);
         while(q.empty()==false)
         {
-            auto left = q.front();
+            auto l = q.front();
             q.pop();
-            auto right = q.front();
+            auto r = q.front();
             q.pop();
-            if(left==NULL && right==NULL)
+            if(l==NULL && r==NULL)
                 continue;
-            if(left==NULL || right==NULL)
+            if(l==NULL || r==NULL)
                 return false;
-            if(left->val!=right->val)
+            if(l->val!=r->val)
                 return false;
-            q.push(left->left);
-            q.push(right->right);
-            q.push(left->right);
-            q.push(right->left);
+            q.push(l->left);
+            q.push(r->right);
+            q.push(l->right);
+            q.push(r->left);
         }
         return true;
     }
