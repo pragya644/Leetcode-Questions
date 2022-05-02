@@ -11,25 +11,20 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root, vector<int> &v)
-    {
-        if(root==NULL)
-            return;
-        v.push_back(root->val);
-        solve(root->left,v);
-        solve(root->right,v);
-    }
-    
     void flatten(TreeNode* root) {
-        vector<int> v;
-        solve(root,v);
-        TreeNode* temp = root;
-        for(int i=1; i<v.size(); i++)
+        while(root!=NULL)
         {
-            TreeNode* node = new TreeNode(v[i]);
-            temp->left = NULL;
-            temp->right = node;
-            temp = temp->right;
+            if(root->left!=NULL)
+            {
+                TreeNode* temp = root->left;
+                while(temp->right!=NULL)
+                    temp = temp->right;
+                temp->right = root->right;
+            }
+            if(root->left!=NULL)
+                root->right = root->left;
+            root->left = NULL;
+            root = root->right;
         }
     }
 };
