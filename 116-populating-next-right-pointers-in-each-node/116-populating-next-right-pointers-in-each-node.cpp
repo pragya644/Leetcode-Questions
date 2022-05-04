@@ -21,30 +21,18 @@ public:
     Node* connect(Node* root) {
         if(root==NULL)
             return root;
-        root->next = NULL;
-        queue<Node*> q;
-        q.push(root);
-        while(q.empty()==false)
+        Node* curr = root;
+        while(curr->left!=NULL)
         {
-            int n = q.size();
-            for(int i=0; i<n-1; i++)
+            Node* temp = curr;
+            while(temp!=NULL)
             {
-                auto temp = q.front();
-                q.pop();
-                auto temp2 = q.front();
-                temp->next = temp2;
-                if(temp->left!=NULL)
-                    q.push(temp->left);
-                if(temp->right!=NULL)
-                    q.push(temp->right);
+                temp->left->next = temp->right;
+                if(temp->next!=NULL)
+                    temp->right->next = temp->next->left;
+                temp = temp->next;
             }
-            auto curr = q.front();
-            q.pop();
-            curr->next = NULL;
-            if(curr->left!=NULL)
-                q.push(curr->left);
-            if(curr->right!=NULL)
-                q.push(curr->right);
+            curr = curr->left;
         }
         return root;
     }
