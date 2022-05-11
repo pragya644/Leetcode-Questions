@@ -1,12 +1,39 @@
 class Solution {
 public:
+    int solve(int l, int r, vector<int> &nums)
+    {
+        int p = nums[r];
+        int i=l-1;
+        for(int k=l; k<r; k++)
+        {
+            if(nums[k]<p)
+            {
+                i++;
+                swap(nums[i], nums[k]);
+            }
+        }
+        swap(nums[i+1], nums[r]);
+        return i+1;
+    }
+    
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int> pq;
         int n = nums.size();
-        for(int i=0; i<n; i++)
-            pq.push(nums[i]);
-        for(int i=1; i<k; i++)
-            pq.pop();
-        return pq.top();
+        k = n-k;
+        int ans = 0;
+        int l = 0, r = n-1;
+        while(true)
+        {
+            int i = solve(l,r,nums);
+            if(i==k)
+            {
+                ans = nums[i];
+                break;
+            }
+            else if(i<k)
+                l = i+1;
+            else
+                r = i-1;
+        }
+        return ans;
     }
 };
