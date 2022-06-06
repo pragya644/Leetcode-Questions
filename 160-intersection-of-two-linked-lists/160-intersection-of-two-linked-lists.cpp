@@ -8,22 +8,40 @@
  */
 class Solution {
 public:
-    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        ListNode *temp1 = headA;
-        ListNode *temp2 = headB;
-        if(temp1==NULL || temp2==NULL)
-            return NULL;
-        while(temp1!=NULL && temp2!=NULL && temp1!=temp2)
+    int height(ListNode *head)
+    {
+        ListNode * temp = head;
+        int ans = 0;
+        while(temp!=NULL)
         {
-            temp1 = temp1->next;
-            temp2 = temp2->next;
-            if(temp1==temp2)
-                return temp1;
-            if(temp1==NULL)
-                temp1 = headB;
-            if(temp2==NULL)
-                temp2 = headA;
+            ans++;
+            temp = temp->next;
         }
-        return temp1;
+        return ans;
+    }
+    
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int ha = height(headA);
+        int hb = height(headB);
+        ListNode *tempa = headA;
+        ListNode *tempb = headB;
+        if(ha>hb)
+        {
+            int d = ha-hb;
+            while(d--)
+               tempa = tempa->next;
+        }
+        else
+        {
+            int d = hb-ha;
+            while(d--)
+                tempb = tempb->next;
+        }
+        while(tempa!=NULL && tempb!=NULL && tempa!=tempb)
+        {
+            tempa = tempa->next;
+            tempb = tempb->next;
+        }
+        return tempa;
     }
 };
