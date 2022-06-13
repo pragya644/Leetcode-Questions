@@ -1,26 +1,25 @@
 class Solution {
 public:
-    bool issafe(char x, char y)
+    bool check(char x, char y)
     {
-        if(x=='(' && y==')')
+        if(y=='(' && x==')')
             return true;
-        if(x=='{' && y=='}')
+        if(y=='[' && x==']')
             return true;
-        if(x=='[' && y==']')
+        if(y=='{' && x=='}')
             return true;
         return false;
     }
+    
     bool isValid(string s) {
-        if(s.empty())
-            return true;
         stack<char> st;
-        for(int i=0; i<s.length(); i++)
+        for(auto x : s)
         {
-            if(s[i]=='(' || s[i]=='[' || s[i]=='{')
-                st.push(s[i]);
+            if(x=='(' || x=='[' || x=='{')
+                st.push(x);
             else if(!st.empty())
             {
-                if(issafe(st.top(),s[i]))
+                if(check(x,st.top()))
                     st.pop();
                 else
                     return false;
@@ -28,8 +27,8 @@ public:
             else
                 return false;
         }
-        if(st.empty()==true)
-           return true;
+        if(st.empty())
+            return true;
         return false;
     }
 };
