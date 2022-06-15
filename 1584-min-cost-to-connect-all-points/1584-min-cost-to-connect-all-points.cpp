@@ -2,28 +2,30 @@ class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& points) {
         int n = points.size();
-        priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>>> pq;
-        pq.push({0,0}); 
-        int edgeused = 0;
         vector<bool> vis(n,false);
+        vector<int> dis(n,INT_MAX);
+        dis[0] = 0;
+        int edgeused = 0;
         int cost = 0;
-        while(edgeused<n)
+        while(edgeused < n)
         {
-            auto curr = pq.top();
-            pq.pop();
-            int weight = curr.first;
-            int curr_node = curr.second;
-            if(vis[curr_node]==true)
-                continue;
-            vis[curr_node] = true;
-            cost += weight;
+            int curr_dis = INT_MAX;
+            int curr_edge = -1;
             for(int i=0; i<n; i++)
             {
-                if(vis[i]==false)
+                if(!vis[i] && curr_dis > dis[i])
                 {
-                    int w = abs(points[i][0]-points[curr_node][0]) + abs(points[i][1]-points[curr_node][1]);
-                    pq.push({w,i});
+                    curr_dis = dis[i];
+                    curr_edge = i;
                 }
+            }
+            cost += curr_dis;
+            vis[curr_edge] = true;
+            for(int i=0; i<n; i++)
+            {
+                int w = abs(points[i][0]-points[curr_edge][0]) + abs(points[i][1]-points[curr_edge][1]);
+                if(w<dis[i] && vis[i]==false)
+                    dis[i] = w;
             }
             edgeused++;
         }
