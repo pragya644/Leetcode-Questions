@@ -1,25 +1,29 @@
 class Solution {
 public:
+    int solve(int n)
+    {
+        int temp;
+        int sum = 0;
+        while(n>0)
+        {
+            temp = n%10;
+            n = n/10;
+            sum += temp*temp;
+        }
+        return sum;
+    }
+    
     bool isHappy(int n) {
-        unordered_set<int> s;
-        int temp = n;
-        int curr = 0;
-        s.insert(n);
+        int slow = n;
+        int fast = solve(n);
         while(true)
         {
-            while(n>0)
-            {
-               temp = n%10;
-               n = n/10;
-               curr += temp*temp;
-            }
-            if(curr == 1)
+            if(fast==1)
                 return true;
-            if(s.find(curr)!=s.end())
+            if(slow==fast)
                 return false;
-            s.insert(curr);
-            n = curr;
-            curr = 0;
+            slow = solve(slow);
+            fast = solve(solve(fast));
         }
         return true;
     }
