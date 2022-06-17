@@ -1,38 +1,18 @@
 class Solution {
 public:
     int numSquares(int n) {
-        vector<int> v;
-        for(int i=0; i<n; i++)
+        vector<int> dp(n+1, INT_MAX);
+        dp[0] = 0;
+        int x = 1;
+        while(x*x<=n)
         {
-            if(i*i<=n)
-                v.push_back(i);
-            else
-                break;
-        }
-        int len = v.size();
-        int dp[len+1][n+1];
-        for(int i=0; i<=len; i++)
-        {
-            for(int j=0; j<=n; j++)
+            for(int i=0; i<=n; i++)
             {
-                if(i==0)
-                    dp[i][j] = INT_MAX-1;
-                else if(j==0)
-                    dp[i][j] = 0;
-                else if(i==1)
-                    dp[i][j] = j;
-                else
-                {
-                    int x = v[i-1]*v[i-1];
-                    if(x<= j)
-                    {
-                        dp[i][j] = min(1+dp[i][j-x], dp[i-1][j]);
-                    }
-                    else
-                        dp[i][j] = dp[i-1][j];
-                }
+                if(x*x<=i)
+                    dp[i] = min(1+dp[i-x*x], dp[i]);
             }
+            x++;
         }
-        return dp[len][n];
+        return dp[n];
     }
 };
