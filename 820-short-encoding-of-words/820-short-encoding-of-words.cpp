@@ -1,5 +1,12 @@
 class Solution {
 public:
+    
+    //Time complexity is O(n*l^2);
+    // n for iterating loop
+    // l for iterating word[i].length;
+    // l for getting substring
+    
+    //space complexity is O(n*l);
     int minimumLengthEncoding(vector<string>& words) {
         unordered_set<string> s(words.begin(), words.end());
         int size = words.size();
