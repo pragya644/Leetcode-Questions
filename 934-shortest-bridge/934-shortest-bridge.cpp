@@ -57,7 +57,7 @@ public:
                         }
                         if(grid[row][col]==0)
                         {
-                            grid[row][col] = 1+grid[x][y];
+                            grid[row][col] = 2; //visited
                             q.push({row,col});
                         }
                     }
