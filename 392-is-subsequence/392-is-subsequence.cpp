@@ -1,22 +1,29 @@
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int len1 = s.length();
-        int len2 = t.length();
-        int i = 0, j=0;
-        int count1 = 0;
-        while(i<len1 && j<len2)
+        int n = s.length();
+        int m = t.length();
+        int dp[n+1][m+1];
+        for(int i=0; i<=n; i++)
         {
-            if(s[i]==t[j])
+            for(int j=0; j<=m; j++)
             {
-                i++;
-                j++;
-                count1++;
+                if(i==0 || j==0)
+                    dp[i][j] = 0;
+                else
+                {
+                    if(s[i-1]==t[j-1])
+                    {
+                        dp[i][j] = 1 + dp[i-1][j-1];
+                    }
+                    else
+                    {
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                    }
+                }
             }
-            else
-                j++;
         }
-        if(count1==len1)
+        if(dp[n][m]==n)
             return true;
         return false;
     }
