@@ -1,21 +1,16 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        unordered_map<char,char> m;
-        unordered_set<char> st;
+        vector<char> first_string(256,0);
+        vector<char> second_string(256,0);
         for(int i=0; i<s.length(); i++)
         {
-            if(m.find(s[i])!=m.end())
+            if(first_string[s[i]]==0 && second_string[t[i]]==0)
             {
-                if(m[s[i]]!=t[i])
-                    return false;
+                first_string[s[i]] = t[i];
+                second_string[t[i]] = s[i];
             }
-            else if(st.find(t[i])==st.end())
-            {
-                m[s[i]] = t[i];
-                st.insert(t[i]);
-            }
-            else
+            else if(first_string[s[i]]!=t[i])
                 return false;
         }
         return true;
