@@ -1,28 +1,26 @@
 class Solution {
 public:
-    void bfs(vector<vector<int>>& graph,vector<vector<int>> &ans )
-    {
-        queue<vector<int>> q;
-        q.push({0});
-        while(q.empty()==false)
+    
+    void solve(vector<vector<int>> &graph, int i, vector<int> &temp, vector<vector<int>> &ans) {
+        if(i==graph.size()-1)
         {
-            vector<int> path = q.front();
-            q.pop();
-            int u= path[path.size()-1]; //last node
-            for(auto v : graph[u])
-            {
-                path.push_back(v);
-                if(v==graph.size()-1)
-                    ans.push_back(path);
-                else
-                    q.push(path);
-                path.pop_back();
-            }
+            temp.push_back(i);
+            ans.push_back(temp);
+            temp.pop_back();
+            return;
         }
+        temp.push_back(i);
+        for(auto x: graph[i]){
+            solve(graph,x,temp,ans);
+        }
+        temp.pop_back();
     }
+    
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         vector<vector<int>> ans;
-        bfs(graph, ans);
+        int n = graph.size();
+        vector<int> temp;
+        solve(graph,0,temp,ans);
         return ans;
     }
 };
