@@ -2,29 +2,26 @@ class Solution {
 public:
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
         int n = rooms.size();
-        vector<bool> vis(n, false);
+        vector<bool> vis(n,false);
+        vis[0] = true;
         queue<int> q;
-        for(int i=0; i<rooms[0].size(); i++)
-            q.push(rooms[0][i]);
-        vis[0] =  true;
+        q.push(0);
         while(q.empty()==false)
         {
-            int m = q.size();
-            for(int i=0; i<m; i++)
+            auto curr = q.front();
+            q.pop();
+            for(auto x: rooms[curr])
             {
-                int x = q.front();
-                q.pop();
                 if(vis[x]==false)
                 {
-                    for(auto y: rooms[x])
-                        q.push(y);
+                    q.push(x);
+                    vis[x] = true; 
                 }
-                vis[x] = true;
             }
         }
-        for(int i=0; i<n; i++)
+        for(auto x: vis)
         {
-            if(vis[i]==false)
+            if(x==false)
                 return false;
         }
         return true;
