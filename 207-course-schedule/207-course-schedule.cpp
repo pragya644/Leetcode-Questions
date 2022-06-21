@@ -1,45 +1,39 @@
 class Solution {
 public:
-    bool iscyclic(vector<vector<int>> &adj, vector<int> &vis, int i)
-    {
-        if(vis[i]==2)
+    
+    bool dfs(vector<vector<int>> &adj, vector<int> &vis, vector<bool> &temp, int i) {
+        if(temp[i])
+            return false;
+        if(vis[i]==1)
             return true;
-        vis[i] = 2;
-        for(int j=0; j<adj[i].size(); ++j)
-        {
-            if(vis[adj[i][j]]!=1)
-            {
-                if(iscyclic(adj,vis,adj[i][j]))
-                    return true;
-            }
-        }
         vis[i] = 1;
-        return false;
+        temp[i] = true;
+        for(auto x: adj[i]) {
+            if(dfs(adj,vis,temp,x)==false)
+                return false;
+        }
+        temp[i] = false;
+        return true;
     }
     
     bool canFinish(int n, vector<vector<int>>& pre) {
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-        cout.tie(NULL);
-        
-        
         vector<vector<int>> adj(n);
-        for(int i=0; i<pre.size(); i++)
-        {
+        for(int i=0; i<pre.size(); i++) {
             adj[pre[i][0]].push_back(pre[i][1]);
         }
+        vector<bool> temp(n,false);
         vector<int> vis(n,0);
         for(int i=0; i<n; i++)
         {
             if(vis[i]==0)
             {
-                if(iscyclic(adj,vis,i))
+                if(dfs(adj,vis,temp,i)==false)
                     return false;
             }
         }
         return true;
     }
+    
+    
+    
 };
-
-
-
