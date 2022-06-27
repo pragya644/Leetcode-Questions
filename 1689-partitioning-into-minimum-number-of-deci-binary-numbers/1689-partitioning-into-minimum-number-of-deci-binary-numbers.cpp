@@ -1,6 +1,11 @@
 class Solution {
 public:
     int minPartitions(string n) {
-        return *max_element(begin(n),end(n))-'0';
+        char temp = '0';
+        for(auto x: n)
+        {
+            temp = max(x,temp);
+        }
+        return temp-'0';
     }
 };
