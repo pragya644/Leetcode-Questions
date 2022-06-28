@@ -1,44 +1,21 @@
 class Solution {
 public:
     int minDeletions(string s) {
-                unordered_map<char,int> no_of_char;
-        for(auto x: s)
+        vector<int> freq(26,0);
+        int n = s.length();
+        for(int i=0; i<n; i++)
         {
-            no_of_char[x]++;
+            freq[s[i]-'a']++;
         }
-        unordered_map<int,int> num;
-        for(auto x: no_of_char)
-        {
-            num[x.second]++;
-        }
+        sort(freq.begin(), freq.end());
         int ans = 0;
-        for(auto x: num)
+        for(int i=24; i>=0; i--)
         {
-            int count = x.second;
-            while(count>1)
+            if(freq[i]>=freq[i+1])
             {
-                int val = x.first;
-                int temp = val;
-                val--;
-                while(val>=0)
-                {
-                    if(val==0)
-                    {
-                        num[temp]--;
-                        count--;
-                        ans += (temp-val);
-                        break;
-                    }
-                    if(num[val]==0)
-                    {
-                        num[val]++;
-                        num[temp]--;
-                        count--;
-                        ans += (temp-val);
-                        break;
-                    }
-                    val--;
-                }
+                int temp = freq[i];
+                freq[i] = max(freq[i+1]-1, 0);
+                ans += temp-freq[i];
             }
         }
         return ans;
