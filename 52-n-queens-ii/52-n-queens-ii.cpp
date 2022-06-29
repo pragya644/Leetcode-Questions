@@ -38,15 +38,16 @@ public:
     
     void is_valid(int row, int col,int n, vector<vector<int>> &v, int &ans)
     {
-        if(row==n)
-        {
-            ans++;
-        }
         if(!can_place(row,col,v))
         {
             return;
         }
         v[row][col] = 1;
+        if(row==n-1)
+        {
+            ans++;
+            return;
+        }
         for(int col=0; col<n; col++)
         {
             is_valid(row+1,col,n,v,ans);
@@ -61,6 +62,6 @@ public:
         { 
             is_valid(0,i,n,v,ans);
         }
-        return ans/n;
+        return ans;
     }
 };
