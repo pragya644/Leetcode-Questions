@@ -12,6 +12,8 @@
 class Solution {
 public:
     
+    //Time Complexity is O(n^2) 
+    
     TreeNode* solve(vector<int> &p, vector<int> &i, int &rootIdx, int l, int r)
     {
         if(l>r)
