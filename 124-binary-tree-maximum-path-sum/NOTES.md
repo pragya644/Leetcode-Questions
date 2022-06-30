@@ -1,1 +1,1 @@
-​
+in this we calculte the left side sum and right side sum and add them with root and take the max of three of them but we return only roo->val + max(left, right) cause there should be a linear path.
