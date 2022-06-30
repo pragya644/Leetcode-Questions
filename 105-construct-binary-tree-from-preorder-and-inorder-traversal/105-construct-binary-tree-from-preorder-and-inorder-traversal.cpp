@@ -11,43 +11,23 @@
  */
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = preorder.size();
-        stack<TreeNode*> s;
-        int i=0,j=0;
-        int flag = 0;
-        TreeNode* root = new TreeNode(preorder[i]);
-        i++;
-        TreeNode* temp = root;
-        s.push(root);
-        while(i<n)
-        {
-            if(s.empty()==false && s.top()->val==inorder[j])
-            {
-                temp = s.top();
-                s.pop();
-                flag = 1;
-                j++;
-            }
-            else
-            {
-                if(flag==0)
-                {
-                    temp->left = new TreeNode(preorder[i]);
-                    temp = temp->left;
-                    s.push(temp);
-                    i++;
-                }
-                else
-                {
-                    flag = 0;
-                    temp->right = new TreeNode(preorder[i]);
-                    temp = temp->right;
-                    s.push(temp);
-                    i++;
-                }
-            }
-        }
+    
+    TreeNode* solve(vector<int> &p, vector<int> &i, int &rootIdx, int l, int r)
+    {
+        if(l>r)
+            return NULL;
+        int curr = l;
+        while(i[curr]!=p[rootIdx])
+            curr++;
+        rootIdx++;
+        TreeNode* root = new TreeNode(i[curr]);
+        root->left = solve(p,i,rootIdx,l,curr-1);
+        root->right = solve(p,i,rootIdx, curr+1, r);
         return root;
+    }
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int rootIdx = 0;
+        return solve(preorder,inorder,rootIdx,0,inorder.size()-1);
     }
 };
