@@ -1,37 +1,42 @@
-class TrieNode
-{
-  public:
-    TrieNode*child[26];
-    bool isend;
+
+class TrieNode{
+ public:  
+    TrieNode* child[26];
+    bool isend = false;
     TrieNode()
     {
-       isend = false;
-       for(int i=0; i<26; i++)
-           child[i] = NULL;
+        isend = false;
+        for(int i=0; i<26; i++)
+        {
+            child[i] = NULL;
+        }
     }
 };
 
 class Trie {
-public:
     TrieNode*root;
+public:
+    
     Trie() {
         root = new TrieNode();
     }
     
     void insert(string word) {
-        TrieNode*curr = root;
+        TrieNode * curr = root;
         for(int i=0; i<word.length(); i++)
         {
             int idx = word[i]-'a';
             if(curr->child[idx]==NULL)
+            {
                 curr->child[idx] = new TrieNode();
+            }
             curr = curr->child[idx];
         }
         curr->isend = true;
     }
     
     bool search(string word) {
-        TrieNode* curr = root;
+        TrieNode * curr = root;
         for(int i=0; i<word.length(); i++)
         {
             int idx = word[i]-'a';
@@ -39,14 +44,16 @@ public:
                 return false;
             curr = curr->child[idx];
         }
-        return curr->isend;
+        if(curr->isend == true)
+            return true;
+        return false;
     }
     
-    bool startsWith(string word) {
-        TrieNode* curr = root;
-        for(int i=0; i<word.length(); i++)
+    bool startsWith(string prefix) {
+        TrieNode *curr = root;
+        for(int i=0; i<prefix.length(); i++)
         {
-            int idx = word[i]-'a';
+            int idx = prefix[i]-'a';
             if(curr->child[idx]==NULL)
                 return false;
             curr = curr->child[idx];
