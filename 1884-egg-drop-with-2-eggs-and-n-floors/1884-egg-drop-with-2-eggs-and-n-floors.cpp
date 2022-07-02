@@ -1,27 +1,30 @@
 class Solution {
 public:
+    
+    //recursion time complexity is O(n*2^2
+    //dp time complexity is O()
+    
     int dp[3][1001];
     
-    int solve(int egg, int f)
+    int solve(int egg, int floor)
     {
-        if(f==0 || f==1)
-            return f;
+        if(floor==1 || floor==0)
+            return  floor;
         if(egg==1)
-            return f;
-        if(dp[egg][f]!=-1)
-            return dp[egg][f];
-        int mini = INT_MAX;
-        for(int i=1; i<=f; i++)
+            return floor;
+        if(dp[egg][floor]!=-1)
+            return dp[egg][floor];
+        int ans = INT_MAX;
+        for(int i=1; i<=floor; i++)
         {
-            int temp = 1+max(solve(egg-1, i-1), solve(egg, f-i));
-            mini = min(mini, temp);
+            int mini = 1 + max(solve(egg,floor-i),solve(egg-1,i-1));
+            ans = min(ans, mini);
         }
-        return dp[egg][f] = mini;
+        return dp[egg][floor] = ans;
     }
     
     int twoEggDrop(int n) {
         memset(dp,-1,sizeof(dp));
-        int ans = solve(2,n);
-        return ans;
+        return solve(2,n);
     }
 };
