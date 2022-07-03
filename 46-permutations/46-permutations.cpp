@@ -1,31 +1,35 @@
 class Solution {
 public:
-    void solve(vector<vector<int>>&ans, vector<int>&temp, vector<bool>&vis, vector<int> &nums, int k)
+    
+    //time complexity O(n*n!)
+    
+    void solve(vector<int> &temp, vector<vector<int>> &ans, vector<bool> &vis, vector<int> &nums)
     {
-        if(k==nums.size())
+        if(temp.size()==nums.size())
         {
             ans.push_back(temp);
             return;
         }
-        for(int i=0; i<nums.size(); i++)
+        // vis[i] = true;
+        for(int j=0; j<nums.size(); j++)
         {
-            if(vis[i]==false)
+            if(vis[j]==false)
             {
-                temp.push_back(nums[i]);
-                vis[i] = true;
-                solve(ans,temp, vis, nums, k+1);
-                vis[i] = false;
+                temp.push_back(nums[j]);
+                vis[j] = true;
+                solve(temp,ans,vis,nums);
                 temp.pop_back();
+                vis[j] = false;
             }
         }
     }
     
     vector<vector<int>> permute(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> ans;
         vector<int> temp;
-        vector<bool> vis(n, false);
-        solve(ans,temp,vis,nums,0);
+        vector<vector<int>> ans;
+        vector<bool> vis(n,false);
+        solve(temp,ans,vis,nums);
         return ans;
     }
 };
