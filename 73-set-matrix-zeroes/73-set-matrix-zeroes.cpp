@@ -1,45 +1,27 @@
 class Solution {
 public:
-    void solve(vector<vector<int>> &mat)
-    {
-        int n = mat.size();
-        int m = mat[0].size();
-        for(int i=n-1; i>=0; i--)
-        {
-            for(int j=m-1; j>0; j--)
-            {
-                if(mat[i][0]==0 || mat[0][j]==0)
-                    mat[i][j] = 0;
-            }
-        }
-    }
-    
-    void setZeroes(vector<vector<int>>& mat) {
-        int n = mat.size();
-        int m = mat[0].size();
-        bool row0 = false;
-        for(int j=0; j<n; j++)
-            if(mat[j][0]==0)
-            {
-                row0 = true;
-                break;
-            }
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        queue<pair<int,int>> q;
         for(int i=0; i<n; i++)
         {
-            for(int j=1; j<m; j++)
+            for(int j=0; j<m; j++)
             {
-                if(mat[i][j]==0)
-                {
-                    mat[0][j] = 0;
-                    mat[i][0] = 0;
-                }
+                if(matrix[i][j]==0)
+                    q.push({i,j});
             }
         }
-        solve(mat);
-        if(row0 == true)
+        while(q.empty()==false)
         {
+            auto curr = q.front();
+            q.pop();
+            int x = curr.first;
+            int y = curr.second;
             for(int i=0; i<n; i++)
-                mat[i][0] = 0;
+                matrix[i][y] = 0;
+            for(int j=0; j<m; j++)
+                matrix[x][j] = 0;
         }
     }
 };
