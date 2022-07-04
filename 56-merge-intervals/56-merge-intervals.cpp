@@ -1,18 +1,28 @@
 class Solution {
 public:
-    vector<vector<int>> merge(vector<vector<int>>& v) {
-        if(v.size()==1)
-            return v;
-        sort(v.begin(), v.end());
-        vector<vector<int>> res;
-        res.push_back(v[0]);
-        for(int i=1; i<v.size(); i++)
+    
+    static bool compare(vector<int> &a, vector<int> &b)
+    {
+        return a[0]<b[0];
+    }
+    
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), compare);
+        vector<vector<int>> ans;
+        ans.push_back(intervals[0]);
+        for(int i=1; i<intervals.size(); i++)
         {
-            if(res.back()[1]>=v[i][0])
-                res.back()[1] = max(res.back()[1], v[i][1]);
+            int lastidx = ans.size()-1;
+            if(intervals[i][0]<= ans[lastidx][1])
+            {
+               ans[lastidx][0] = min(ans[lastidx][0], intervals[i][0]);
+               ans[lastidx][1] = max(ans[lastidx][1], intervals[i][1]);
+            }
             else
-                res.push_back(v[i]);
+            {
+                ans.push_back({intervals[i][0], intervals[i][1]});
+            }
         }
-        return res;
+        return ans;
     }
 };
