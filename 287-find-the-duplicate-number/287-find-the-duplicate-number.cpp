@@ -1,20 +1,24 @@
 class Solution {
 public:
+    
+    //binary search solution
     int findDuplicate(vector<int>& nums) {
         int n = nums.size()-1;
-        int slow = nums[0];
-        int fast =nums[0];
-        do
+        int l = 0, r = n;
+        while(l<r)
         {
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-        }while(slow!=fast);
-        slow = nums[0];
-        while(slow!=fast)
-        {
-            slow = nums[slow];
-            fast = nums[fast];
+            int mid = l+(r-l)/2;
+            int count = 0;
+            for(int i=0; i<=n; i++)
+            {
+                if(nums[i]<=mid)
+                    count++;
+            }
+            if(count>mid)
+                r = mid;
+            else
+                l = mid+1;
         }
-        return slow;
+        return l;
     }
 };
