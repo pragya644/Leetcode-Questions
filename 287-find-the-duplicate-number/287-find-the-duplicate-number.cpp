@@ -1,9 +1,9 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
+        int n = nums.size()-1;
         int slow = nums[0];
-        int fast = nums[0];
-        int n = nums.size();
+        int fast =nums[0];
         do
         {
             slow = nums[slow];
