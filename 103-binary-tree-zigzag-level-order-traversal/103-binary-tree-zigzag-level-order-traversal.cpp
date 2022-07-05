@@ -17,8 +17,8 @@ public:
             return ans;
         queue<TreeNode*> q;
         q.push(root);
-        int count = 0;
-        while(!q.empty())
+        bool flag = true;
+        while(q.empty()==false)
         {
             int n = q.size();
             vector<int> temp;
@@ -32,14 +32,14 @@ public:
                 if(curr->right!=NULL)
                     q.push(curr->right);
             }
-            if(count%2==0)
-                ans.push_back(temp);
-            else
+            if(!flag)
             {
                 reverse(temp.begin(), temp.end());
-                ans.push_back(temp);
+                flag = true;
             }
-            count++;
+            else
+                flag = false;
+            ans.push_back(temp);
         }
         return ans;
     }
