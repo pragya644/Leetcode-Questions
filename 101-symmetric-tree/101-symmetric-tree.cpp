@@ -12,31 +12,40 @@
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-        if(root==NULL)
-            return true;
+        queue<TreeNode*> q;
         if(root->left==NULL && root->right==NULL)
             return true;
         if(root->left==NULL || root->right==NULL)
             return false;
-        queue<TreeNode*> q;
         q.push(root->left);
         q.push(root->right);
         while(q.empty()==false)
         {
-            auto l = q.front();
+            auto curr1 = q.front();
             q.pop();
-            auto r = q.front();
+            auto curr2 = q.front();
             q.pop();
-            if(l==NULL && r==NULL)
-                continue;
-            if(l==NULL || r==NULL)
+            if(curr1->val!=curr2->val)
                 return false;
-            if(l->val!=r->val)
+            if(curr1->left!=NULL && curr2->right!=NULL)
+            {
+                q.push(curr1->left);
+                q.push(curr2->right);
+            }
+            else if(!(curr1->left==NULL && curr2->right==NULL) && (curr1->left==NULL || curr2->right==NULL))
+            {
                 return false;
-            q.push(l->left);
-            q.push(r->right);
-            q.push(l->right);
-            q.push(r->left);
+            }
+            if(curr1->right!=NULL && curr2->left!=NULL)
+            {
+                q.push(curr1->right);
+                q.push(curr2->left);
+            }
+            else if(!(curr1->right==NULL && curr2->left==NULL) && (curr1->right==NULL || curr2->left==NULL))
+            {
+                return false;
+            }
+                    
         }
         return true;
     }
