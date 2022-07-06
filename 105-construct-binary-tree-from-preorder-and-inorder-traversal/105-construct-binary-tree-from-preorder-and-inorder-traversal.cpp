@@ -12,28 +12,26 @@
 class Solution {
 public:
     
-    //Time Complexity is O(n)
-    //Space Complexity is O(n^2)
-    
-    TreeNode* solve(vector<int> &p, vector<int> &i, int &rootIdx, int l, int r, unordered_map<int,int> &inorder_map)
+    TreeNode* solve(int&i,int l,int r,vector<int>&preorder,unordered_map<int,int> &m)
     {
         if(l>r)
-            return NULL;
-        int curr = inorder_map[p[rootIdx]];
-        rootIdx++;
-        TreeNode* root = new TreeNode(i[curr]);
-        root->left = solve(p,i,rootIdx,l,curr-1,inorder_map);
-        root->right = solve(p,i,rootIdx, curr+1, r,inorder_map);
+            return NULL; 
+        TreeNode* root = new TreeNode(preorder[i]);
+        int inorderIdx = m[preorder[i]];
+        i++;
+        root->left = solve(i,l,inorderIdx-1,preorder,m);
+        root->right = solve(i,inorderIdx+1, r, preorder,m);
         return root;
     }
     
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int rootIdx = 0;
-        unordered_map<int,int> inorder_map;
-        for(int i=0; i<inorder.size(); i++)
+        int n = preorder.size();
+        unordered_map<int,int> m;
+        for(int i=0; i<n; i++)
         {
-            inorder_map.insert({inorder[i],i});
+            m[inorder[i]] = i;
         }
-        return solve(preorder,inorder,rootIdx,0,inorder.size()-1, inorder_map);
+        int idx = 0;
+        return solve(idx,0,n-1,preorder,m);
     }
 };
