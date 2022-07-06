@@ -11,43 +11,25 @@
  */
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n = inorder.size();
-        int i = n-1, j=n-1;
-        TreeNode* root = new TreeNode(postorder[n-1]);
+    
+    TreeNode* solve(int &i, int l, int r, vector<int> &post, unordered_map<int,int> &m)
+    {
+        if(l>r)
+            return NULL;
+        int curr = m[post[i]];
+        TreeNode* root = new TreeNode(post[i]);
         i--;
-        TreeNode* temp = root;
-        stack<TreeNode*> s;
-        s.push(root);
-        int flag = 0;
-        while(i>=0)
-        {
-            if(s.empty()==false && s.top()->val == inorder[j])
-            {
-                flag = 1;
-                temp = s.top();
-                s.pop();
-                j--;
-            }
-            else
-            {
-                if(flag==0)
-                {
-                    temp->right = new TreeNode(postorder[i]);
-                    temp = temp->right;
-                    i--;
-                    s.push(temp);
-                }
-                else
-                {
-                    temp->left = new TreeNode(postorder[i]);
-                    temp = temp->left;
-                    i--;
-                    s.push(temp);
-                    flag = 0;
-                }
-            }
-        }
+        root->right = solve(i,curr+1,r, post,m);
+        root->left = solve(i,l, curr-1,post,m);
         return root;
+    }
+    
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        unordered_map<int,int> m;
+        int n = inorder.size();
+        for(int i=0; i<n; i++)
+            m[inorder[i]] = i;
+        int idx = n-1;
+        return solve(idx,0,n-1,postorder,m);
     }
 };
