@@ -20,8 +20,7 @@ class Solution {
 public:
     Node* connect(Node* root) {
         if(root==NULL)
-            return root;
-        root->next = NULL;
+            return NULL;
         queue<Node*> q;
         q.push(root);
         while(q.empty()==false)
@@ -29,22 +28,22 @@ public:
             int n = q.size();
             for(int i=0; i<n-1; i++)
             {
-                auto temp = q.front();
+                auto curr = q.front();
                 q.pop();
-                auto temp2 = q.front();
-                temp->next = temp2;
-                if(temp->left!=NULL)
-                    q.push(temp->left);
-                if(temp->right!=NULL)
-                    q.push(temp->right);
+                auto side = q.front();
+                curr->next = side;
+                if(curr->left!=NULL)
+                    q.push(curr->left);
+                if(curr->right!=NULL)
+                    q.push(curr->right);
             }
-            auto curr = q.front();
+            auto last = q.front();
             q.pop();
-            curr->next = NULL;
-            if(curr->left!=NULL)
-                q.push(curr->left);
-            if(curr->right!=NULL)
-                q.push(curr->right);
+            last->next = NULL;
+            if(last->left!=NULL)
+                q.push(last->left);
+            if(last->right!=NULL)
+                q.push(last->right);
         }
         return root;
     }
