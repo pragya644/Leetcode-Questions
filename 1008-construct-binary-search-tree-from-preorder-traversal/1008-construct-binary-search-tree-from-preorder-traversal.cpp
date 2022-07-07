@@ -11,26 +11,28 @@
  */
 class Solution {
 public:
-    TreeNode* bstFromPreorder(vector<int>& p) {
-        int n = p.size();
-        TreeNode* root = new TreeNode(p[0]);
-        stack<TreeNode*> s;
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int n = preorder.size();
+        stack<TreeNode* > s;
+        TreeNode* root = new TreeNode(preorder[0]);
         s.push(root);
         for(int i=1; i<n; i++)
         {
-            auto curr = s.top();
-            if(s.empty()==false && p[i]<curr->val){
-                curr->left = new TreeNode(p[i]);
-                s.push(curr->left);
+            if(s.empty()==false && preorder[i]<s.top()->val)
+            {
+                auto temp = s.top();
+                temp->left = new TreeNode(preorder[i]);
+                s.push(temp->left);
             }
             else
             {
                 TreeNode* temp = s.top();
-                while(s.empty()==false && s.top()->val<p[i]){
+                while(s.empty()==false && s.top()->val<preorder[i])
+                {
                     temp = s.top();
                     s.pop();
                 }
-                temp->right = new TreeNode(p[i]);
+                temp->right = new TreeNode(preorder[i]);
                 s.push(temp->right);
             }
         }
