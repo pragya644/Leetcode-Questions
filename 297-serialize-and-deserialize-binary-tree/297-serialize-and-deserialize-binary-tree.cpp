@@ -9,7 +9,13 @@
  */
 class Codec {
 public:
-    
+
+    string serialize(TreeNode* root) {
+        if(root==NULL)
+            return "NULL,";
+        return to_string(root->val)+','+serialize(root->left)+serialize(root->right);
+    }
+
     TreeNode* solve(queue<string> &q)
     {
         string s = q.front();
@@ -21,19 +27,11 @@ public:
         root->right = solve(q);
         return root;
     }
-
-    // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        if(root==NULL)
-            return "NULL,";
-        return to_string(root->val)+','+serialize(root->left)+serialize(root->right);  //preorder traversal
-    }
-
-    // Decodes your encoded data to tree.
+    
     TreeNode* deserialize(string data) {
         queue<string> q;
         string s;
-        for(int i=0; i<data.size(); i++)
+        for(int i=0; i<data.length(); i++)
         {
             if(data[i]==',')
             {
