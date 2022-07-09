@@ -1,6 +1,8 @@
 class Solution {
 public:
     
+    //time complexity is O(m*n) because visting every node at most once
+    
     void markWater(int i, int j, vector<vector<char>> &grid)
     {
         if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || grid[i][j]!='1')
