@@ -7,38 +7,37 @@ class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
+	
+	void solve(int i, vector<bool> &vis, vector<int> adj[], stack<int> &st)
+	{
+	    vis[i] = true;
+	    for(auto x: adj[i])
+	    {
+	        if(vis[x]==false)
+	            solve(x,vis,adj,st);
+	    }
+	    st.push(i);
+	    
+	}
+	
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    vector<int> indegree(V,0);
+	    stack<int> st;
+	    vector<bool> vis(V,false);
 	    for(int i=0; i<V; i++)
 	    {
-	        for(auto x: adj[i])
+	        if(vis[i]==false)
 	        {
-	            indegree[x]++;
+	            solve(i,vis,adj,st);
 	        }
-	    }
-	    queue<int> q;
-	    for(int i=0; i<indegree.size(); i++)
-	    {
-	        if(indegree[i]==0)
-	          q.push(i);
 	    }
 	    vector<int> ans;
-	    while(q.empty()==false)
+	    while(st.empty()==false)
 	    {
-	        auto curr = q.front();
-	        q.pop();
-	        ans.push_back(curr);
-	        for(auto x: adj[curr])
-	        {
-	            indegree[x]--;
-	            if(indegree[x]==0)
-	            {
-	                q.push(x);
-	            }
-	        }
+	        ans.push_back(st.top());
+	        st.pop();
 	    }
-	    return ans;
+	    return ans;                                                                     
 	}
 };
 
