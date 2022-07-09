@@ -1,46 +1,45 @@
 class Solution {
 public:
+    //tropolgoical sorting
+    // time Complexity would be O(V+E)
+    //space Complexity is O(V+E)
     
-    
-    //this is when node is already visited and not in curr track eg 3->0->1                                                                           \ /                                                                    //      2    //(0->2 ans 1->2)
-    
-    
-    // time complexity is O(v+e)
-    
-    bool isCycle(int i, vector<vector<int>> &adj, vector<bool> &vis, vector<bool> &temp)
-    {
-        if(vis[i]==true)  // upper statement
-            return false;                                                            
-        vis[i] = true;                                                                     
-        temp[i]= true;
-        for(auto x: adj[i])
+    bool canFinish(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        int mustCourse = pre.size();
+        for(int i=0; i<mustCourse; i++)
         {
-            if(temp[x]==false){
-                if(isCycle(x,adj,vis,temp))
-                    return true;
-            }else{
-                return true;
+            adj[pre[i][0]].push_back(pre[i][1]);
+        }
+        vector<int> inDegree(n,0);
+        for(int i=0; i<n; i++)
+        {
+            for(auto node: adj[i]){
+                inDegree[node]++;
             }
         }
-        temp[i] = false;
-        return false;
-    }
-    
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(numCourses);
-        for(int i=0; i<prerequisites.size(); i++)
-        {
-            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        queue<int> nodeWith0Degree;
+        for(int i=0; i<n; i++){
+            if(inDegree[i]==0)
+                nodeWith0Degree.push(i);
         }
-        vector<bool> vis(numCourses,false);
-        vector<bool> tempVis(numCourses,false);
-        for(int i=0; i<numCourses; i++)
+        int visNode = 0;
+        while(nodeWith0Degree.empty()==false)
         {
-            if(vis[i]==false){
-            if(isCycle(i,adj,vis,tempVis))
-                return false;
+            int currNode = nodeWith0Degree.front();
+            nodeWith0Degree.pop();
+            for(auto node: adj[currNode])
+            {
+                inDegree[node]--;
+                if(inDegree[node]==0)
+                {
+                    nodeWith0Degree.push(node);
+                }
             }
+            visNode++;
         }
+        if(visNode!=n)
+            return false;
         return true;
     }
 };
