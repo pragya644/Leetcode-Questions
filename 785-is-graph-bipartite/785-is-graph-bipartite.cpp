@@ -1,18 +1,24 @@
 class Solution {
 public:
-    
+    //bfs
     //time complexity is O(V+E) bcoz we are every visting node only once;
     bool solve(int i, vector<vector<int>> &graph, vector<int> &col)
     {
-        for(auto x: graph[i])
+        queue<int> q;
+        q.push(i);
+        while(q.empty()==false)
         {
-            if(col[x]==col[i])
-                return false;
-            else if(col[x]==0)
+            auto curr = q.front();
+            q.pop();
+            for(auto x: graph[curr])
             {
-                col[x] = -col[i];
-                if(solve(x,graph,col)==false)
+                if(col[x]==col[curr])
                     return false;
+                if(col[x]==0)
+                {
+                    col[x] = -col[curr];
+                    q.push(x);
+                }
             }
         }
         return true;
