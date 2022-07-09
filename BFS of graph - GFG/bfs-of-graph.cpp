@@ -9,20 +9,20 @@ class Solution {
     vector<int> bfsOfGraph(int V, vector<int> adj[]) {
         vector<int> ans;
         queue<int> q;
-        vector<bool> vis(V, false);
         q.push(0);
+        vector<bool> vis(V, false);
         vis[0] = true;
         while(q.empty()==false)
         {
-            int curr = q.front();
-            ans.push_back(curr);
+            auto curr = q.front();
             q.pop();
+            ans.push_back(curr);
             for(auto x: adj[curr])
             {
                 if(vis[x]==false)
                 {
-                    q.push(x);
                     vis[x] = true;
+                    q.push(x);
                 }
             }
         }
