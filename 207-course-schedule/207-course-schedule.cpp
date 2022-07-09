@@ -1,11 +1,17 @@
 class Solution {
 public:
     
+    
+    //this is when node is already visited and not in curr track eg 3->0->1                                                                           \ /                                                                    //      2    //(0->2 ans 1->2)
+    
+    
+    // time complexity is O(v+e)
+    
     bool isCycle(int i, vector<vector<int>> &adj, vector<bool> &vis, vector<bool> &temp)
     {
-        if(vis[i]==true)
-            return false;
-        vis[i] = true;
+        if(vis[i]==true)  // upper statement
+            return false;                                                            
+        vis[i] = true;                                                                     
         temp[i]= true;
         for(auto x: adj[i])
         {
