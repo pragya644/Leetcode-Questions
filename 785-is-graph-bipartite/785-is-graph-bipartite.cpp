@@ -1,16 +1,18 @@
 class Solution {
 public:
     
-    bool solve(vector<vector<int>> &graph, vector<int> &color, int curr)
+    //time complexity is O(V+E) bcoz we are every visting node only once;
+    bool solve(int i, vector<vector<int>> &graph, vector<int> &col)
     {
-        for(auto v: graph[curr])
+        for(auto x: graph[i])
         {
-            if(color[v]==color[curr])
+            if(col[x]==col[i])
                 return false;
-            else if(color[v]==0){
-            color[v] = -color[curr];
-            if(solve(graph, color, v)==false)
-                return false;
+            else if(col[x]==0)
+            {
+                col[x] = -col[i];
+                if(solve(x,graph,col)==false)
+                    return false;
             }
         }
         return true;
@@ -18,14 +20,14 @@ public:
     
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
-        vector<int> color(n,0);
+        vector<int> col(n,0);
         for(int i=0; i<n; i++)
         {
-            if(color[i]==0)
+            if(col[i]==0)
             {
-                color[i] = 1;
-                if(solve(graph, color, i)==false)
-                    return false;
+                col[i] = 1;
+                if(solve(i,graph,col)==false)
+                     return false;
             }
         }
         return true;
