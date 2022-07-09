@@ -1,35 +1,38 @@
 class Solution {
 public:
     
-    //time complexity is O(n+e), e is no of prerequisite or pre.size();
-    //space compexity is 
+    bool isCycle(int i, vector<vector<int>> &adj, vector<bool> &vis, vector<bool> &temp)
+    {
+        if(vis[i]==true)
+            return false;
+        vis[i] = true;
+        temp[i]= true;
+        for(auto x: adj[i])
+        {
+            if(temp[x]==false){
+                if(isCycle(x,adj,vis,temp))
+                    return true;
+            }else{
+                return true;
+            }
+        }
+        temp[i] = false;
+        return false;
+    }
     
-    //tropological sorting
-    bool canFinish(int n, vector<vector<int>>& pre) {
-        vector<vector<int>> adj(n);
-        for(int i=0; i<pre.size(); i++) {
-            adj[pre[i][0]].push_back(pre[i][1]);
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        for(int i=0; i<prerequisites.size(); i++)
+        {
+            adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
         }
-        vector<int> deg(n,0);
-        for(int i=0; i<n; i++) {
-            for(auto x: adj[i]) {
-                deg[x]++;
-            }
-        }
-        for(int i=0; i<n; i++) {
-            int node = 0;
-            while(node<n)
-            {
-                if(deg[node]==0)
-                    break;
-                node++;
-            }
-            if(node==n) {
+        vector<bool> vis(numCourses,false);
+        vector<bool> tempVis(numCourses,false);
+        for(int i=0; i<numCourses; i++)
+        {
+            if(vis[i]==false){
+            if(isCycle(i,adj,vis,tempVis))
                 return false;
-            }
-            deg[node]--;
-            for(auto x: adj[node]) {
-                deg[x]--;
             }
         }
         return true;
