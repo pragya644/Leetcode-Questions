@@ -1,7 +1,5 @@
 class KthLargest {
 public:
-    
-    priority_queue<int> maxi;
     priority_queue<int,vector<int>, greater<int>> mini;
     int idx ;
     
@@ -12,7 +10,6 @@ public:
             mini.push(x);
             if(mini.size()>k)
             {
-                maxi.push(mini.top());
                 mini.pop();
             }
         }
@@ -22,7 +19,6 @@ public:
         mini.push(val);
         if(mini.size()>idx)
         {
-            maxi.push(mini.top());
             mini.pop();
         }
         return mini.top();
