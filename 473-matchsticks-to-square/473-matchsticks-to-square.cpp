@@ -1,36 +1,30 @@
 class Solution {
 public:
     
-    bool canMakeSquare(int i,int currSum,int target,int side,vector<bool> &vis,vector<int> &m)
+    bool isSquare(int i, int target,vector<int> &m,int s1,int s2, int s3, int s4)
     {
-        if(side==1)
+        if(s1>target || s2>target || s3>target || s4>target)
+            return false;
+        if(i==m.size())
             return true;
-        if(currSum == target)
-            return canMakeSquare(0,0,target,side-1,vis,m);
-        for(int j=i; j<m.size(); j++)
-        {
-            if(vis[j]==true || m[j]+currSum>target)
-                continue;
-            vis[j] = true;
-            if(canMakeSquare(j+1,currSum+m[j], target,side,vis,m))
-                return true;
-            vis[j] = false;
-        }
-        return false;
+        bool r1 = isSquare(i+1,target,m,s1+m[i],s2,s3,s4);
+        bool r2 = isSquare(i+1,target,m,s1,s2+m[i],s3,s4);
+        bool r3 = isSquare(i+1,target,m,s1,s2,s3+m[i],s4);
+        bool r4 = isSquare(i+1,target,m,s1,s2,s3,s4+m[i]);
+        return r1||r2||r3||r4;
     }
     
     bool makesquare(vector<int>& matchsticks) {
         int n = matchsticks.size();
         int totalSum = 0;
         for(auto x: matchsticks)
-        {
             totalSum += x;
-        }
         if(n<4 || totalSum%4!=0)
             return false;
         int target = totalSum/4;
-        int side = 4;
-        vector<bool> vis(n,false);
-        return canMakeSquare(0,0,target,side,vis,matchsticks);
+        sort(matchsticks.begin(), matchsticks.end());
+        reverse(matchsticks.begin(), matchsticks.end());
+        int side1 =0, side2 = 0, side3 = 0, side4 = 0;
+        return isSquare(0,target,matchsticks,side1, side2, side3,side4);
     }
 };
