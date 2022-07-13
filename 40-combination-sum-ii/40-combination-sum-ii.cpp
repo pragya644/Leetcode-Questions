@@ -1,21 +1,23 @@
 class Solution {
 public:
-    void solve(vector<vector<int>> &ans, vector<int> &temp, vector<int> &c, int t, int i, int sum)
+    
+    //time complexity is O(2^n*n)
+    void solve(int i,int &sum,int target,vector<int> &temp,vector<int> &c,vector<vector<int>> &ans)
     {
-        if(sum>t)
-            return;
-        if(sum==t)
+        if(sum==target)
         {
             ans.push_back(temp);
             return;
         }
-        for(int j=i;  j<c.size(); j++)
+        if(sum>target || i==c.size())
+            return;
+        for(int j=i; j<c.size(); j++)
         {
             if(j!=i && c[j]==c[j-1])
                 continue;
-            temp.push_back(c[j]);
             sum += c[j];
-            solve(ans,temp,c,t,j+1,sum);
+            temp.push_back(c[j]);
+            solve(j+1,sum,target,temp,c,ans);
             sum -= c[j];
             temp.pop_back();
         }
@@ -25,7 +27,8 @@ public:
         sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
         vector<int> temp;
-        solve(ans,temp,candidates,target,0,0);
+        int sum = 0;
+        solve(0,sum,target,temp,candidates,ans);
         return ans;
     }
 };
