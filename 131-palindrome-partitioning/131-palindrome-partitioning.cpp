@@ -1,19 +1,11 @@
 class Solution {
+    
 public:
     
     //time complexity is O(n*2^n)
-    bool isPalindrome(string s,int l, int r)
-    {
-        int n = s.length();
-        while(l<=r)
-        {
-            if(s[l]!=s[r])
-                return false;
-            l++;
-            r--;
-        }
-        return true;
-    }
+
+    
+    vector<vector<bool>> dp{17,vector<bool> (17,false)};
     
     void solve(int i,string s,vector<string> &temp, vector<vector<string>>&ans)
     {
@@ -24,8 +16,9 @@ public:
         }
         for(int j=i; j<s.size(); j++)
         {
-            if(isPalindrome(s,i,j))
+            if(s[i]==s[j] && (j-i<2 || dp[i+1][j-1]))
             {
+                dp[i][j] = true;
                 temp.push_back(s.substr(i,j-i+1));
                 solve(j+1,s,temp,ans);
                 temp.pop_back();
