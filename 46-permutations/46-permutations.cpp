@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    //time complexity O(n*n!)
+    //time complexity O(n*n)
     
     void solve(vector<int> &temp, vector<vector<int>> &ans, vector<bool> &vis, vector<int> &nums)
     {
