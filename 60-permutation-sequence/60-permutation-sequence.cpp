@@ -1,47 +1,27 @@
 class Solution {
 public:
     
-    void solve(vector<int> &temp, int n, int &currPermu, int k, vector<int> &ans,bool &flag , vector<bool> &vis)
-    {
-        if(temp.size()==n){
-            currPermu += 1;
-            if(currPermu!=k)
-                return;
-        }
-        if(currPermu == k)
-        {
-            ans = temp;
-            flag = true;
-            return;
-        }
-        for(int j=0; j<n; j++)
-        {
-            if(vis[j+1]==false)
-            {
-                vis[j+1] = true;
-                temp.push_back(j+1);
-                solve(temp,n,currPermu,k,ans,flag,vis);
-                if(flag==true)
-                    return;
-                temp.pop_back();
-                vis[j+1] = false;
-            }
-        }
-        if(flag==true)
-            return;
-    }
+    //time complexity is O(n*n)
     
     string getPermutation(int n, int k) {
-        int currPermu = 0;
-        vector<bool> vis(n+1,false);
-        bool flag = false;
-        vector<int> temp;
-        vector<int> ans;
-        solve(temp,n,currPermu,k,ans,flag,vis);
-        string s;
-        for(auto x: ans)
+        vector<int> value;
+        int factorial = 1;
+        for(int  i=1; i<n; i++)
         {
-            s += to_string(x);
+            value.push_back(i);
+            factorial *= i; //we are not multiplying last value bcoz we want the no of perumtaion in each block. eg 4! = 24 means 6 block at each idx. 6 = 3!
+        }
+        value.push_back(n);
+        k -= 1; // 0 indexing 
+        string s;
+        while(true)
+        {
+            s += to_string(value[k/factorial]);
+            value.erase(value.begin()+k/factorial);
+            if(value.size()==0)
+                break;
+            k = k% factorial;
+            factorial = factorial/value.size();
         }
         return s;
     }
