@@ -1,28 +1,33 @@
 class Solution {
 public:
-    void solve(vector<vector<int>> &ans, vector<int>&temp, vector<int> &c, int t,int sum, int i)
+    
+    //time complexity is O(2^t*k), t is target and k is average length
+    void solve(int i,int &sum, vector<int> &c,vector<int> &temp, vector<vector<int>> &ans, int target)
     {
-        if(sum>t)
-            return;
-        if(sum==t)
+        if(sum==target)
         {
             ans.push_back(temp);
             return;
         }
+        if(sum>target)
+            return;
+        if(i==c.size())
+            return;
         for(int j=i; j<c.size(); j++)
         {
-            temp.push_back(c[j]);
             sum += c[j];
-            solve(ans,temp,c,t,sum,j);
-            temp.pop_back();
+            temp.push_back(c[j]);
+            solve(j,sum,c,temp,ans,target);
             sum -= c[j];
+            temp.pop_back();
         }
     }
     
-    vector<vector<int>> combinationSum(vector<int>& can, int target) {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
         vector<int> temp;
-        solve(ans,temp,can,target,0,0);
+        int sum = 0;
+        solve(0,sum,candidates,temp,ans,target);
         return ans;
     }
 };
