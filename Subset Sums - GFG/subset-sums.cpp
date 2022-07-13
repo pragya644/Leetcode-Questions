@@ -6,24 +6,27 @@ using namespace std;
 class Solution
 {
 public:
-    void recursive(vector<int> arr, int sum, int n,int i, vector<int> &res)
+
+    void solve(int i,vector<int> &arr, vector<int> &ans, int sum)
     {
-        if(i==n)
+        ans.push_back(sum);
+        if(i==arr.size())
         {
-            res.push_back(sum);
             return;
         }
-        recursive(arr, sum+arr[i], n, i+1, res);
-        recursive(arr, sum, n, i+1, res);
+        for(int j=i; j<arr.size(); j++)
+        {
+            sum += arr[j];
+            solve(j+1,arr,ans,sum);
+            sum -= arr[j];
+        }
     }
 
-    
     vector<int> subsetSums(vector<int> arr, int N)
     {
-        vector<int> res;
-        recursive(arr,0,N,0,res);
-        sort(res.begin(),res.end());
-        return res;
+        vector<int> ans;
+        solve(0,arr,ans,0);
+        return ans;
     }
 };
 
