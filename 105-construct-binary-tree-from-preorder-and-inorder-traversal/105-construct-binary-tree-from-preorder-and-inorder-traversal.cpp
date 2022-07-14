@@ -12,26 +12,28 @@
 class Solution {
 public:
     
-    TreeNode* solve(int&i,int l,int r,vector<int>&preorder,unordered_map<int,int> &m)
+    //time complexity is O(N) and space Complexity is O(N)
+    
+    TreeNode* makeTree(int &i,vector<int> &preorder,int l,int r , unordered_map<int,int> &m)
     {
         if(l>r)
-            return NULL; 
+            return NULL;
         TreeNode* root = new TreeNode(preorder[i]);
-        int inorderIdx = m[preorder[i]];
+        int currPosInInorder = m[preorder[i]];
         i++;
-        root->left = solve(i,l,inorderIdx-1,preorder,m);
-        root->right = solve(i,inorderIdx+1, r, preorder,m);
+        root->left = makeTree(i,preorder,l,currPosInInorder-1,m);
+        root->right =  makeTree(i,preorder,currPosInInorder+1,r,m);
         return root;
     }
     
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = preorder.size();
         unordered_map<int,int> m;
-        for(int i=0; i<n; i++)
+        for(int i=0; i<inorder.size(); i++)
         {
             m[inorder[i]] = i;
         }
-        int idx = 0;
-        return solve(idx,0,n-1,preorder,m);
+        int n = inorder.size();
+        int i = 0;
+        return makeTree(i,preorder,0,n-1,m);
     }
 };
