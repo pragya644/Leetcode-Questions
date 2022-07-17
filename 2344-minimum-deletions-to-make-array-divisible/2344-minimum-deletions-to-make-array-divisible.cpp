@@ -1,31 +1,18 @@
 class Solution {
 public:
     
-    bool canDivide(int num, vector<int> &numsDivide)
-    {
-        for(auto x: numsDivide)
-        {
-            if(x%num!=0)
-                return false;
-        }
-        return true;
-    }
-    
     int minOperations(vector<int>& nums, vector<int>& numsDivide) {
-        map<int,int> numCount;
-        for(auto x: nums)
-        {
-            numCount[x]++;
-        }
+        sort(nums.begin(),nums.end());
+        int gcd = numsDivide[0];
+        for(auto x: numsDivide)
+            gcd = __gcd(gcd,x);
         int noOfDeletion = 0;
-        for(auto it: numCount)
+        for(int i=0; i<nums.size(); i++)
         {
-            int num = it.first;
-            if(canDivide(num,numsDivide))
+            if(gcd%nums[i]==0)
             {
-                return noOfDeletion;
+                return i;
             }
-            noOfDeletion += it.second;
         }
         return -1;
     }
