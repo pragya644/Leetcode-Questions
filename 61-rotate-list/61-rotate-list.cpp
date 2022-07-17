@@ -10,37 +10,39 @@
  */
 class Solution {
 public:
-    int countnodes(ListNode* head)
+    
+    int findHeight(ListNode* head)
     {
-        ListNode*temp = head;
-        int count = 0;
+        ListNode* temp = head;
+        int length = 0;
         while(temp!=NULL)
         {
-            count++;
+            length++;
             temp = temp->next;
         }
-        return count;
+        return length;
     }
     
     ListNode* rotateRight(ListNode* head, int k) {
-        if(head==NULL)
-            return NULL;
-        int count = countnodes(head);
-        k = k%count;
-        ListNode* temp;
-        int left = count-k-1;
-        ListNode* curr = head;
-        while(curr->next!=NULL)
-            curr = curr->next;
-        curr->next = head;   // joint the last node with the head and made it circular!
-        temp = head;
-        while(left!=0)
+        if(head==NULL || k==0)
+            return head;
+        int length = findHeight(head);
+        k = k%length;
+        if(k==0)
+            return head;
+        int intialLength = length - k;
+        ListNode* node = head;
+        while(node!=NULL && intialLength>1)
         {
-            temp = temp->next;
-            left--;
+            node = node->next;
+            intialLength--;
         }
-        ListNode* ans = temp->next;
-        temp->next = NULL;
-        return ans;
+        ListNode* leftNode = node->next;
+        node->next = NULL;
+        ListNode* leftNodetemp =leftNode;
+        while(leftNodetemp!=NULL && leftNodetemp->next!=NULL)
+            leftNodetemp = leftNodetemp->next;
+        leftNodetemp->next = head;
+        return leftNode;
     }
 };
