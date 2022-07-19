@@ -1,34 +1,36 @@
 class Solution {
 public:
-    bool check(char x, char y)
-    {
-        if(y=='(' && x==')')
+    
+    bool validParentheses(char open, char closing){
+        if(closing==')' && open=='('){
             return true;
-        if(y=='[' && x==']')
+        }
+        if(closing==']' && open=='['){
             return true;
-        if(y=='{' && x=='}')
+        }
+        if(closing=='}' && open=='{'){
             return true;
+        }
         return false;
     }
     
     bool isValid(string s) {
-        stack<char> st;
-        for(auto x : s)
-        {
-            if(x=='(' || x=='[' || x=='{')
-                st.push(x);
-            else if(!st.empty())
-            {
-                if(check(x,st.top()))
-                    st.pop();
-                else
+        stack<char> OpenBrackets;
+        for(int i=0; i<s.length(); i++){
+            if(s[i]=='(' || s[i]=='[' || s[i]=='{'){
+                OpenBrackets.push(s[i]);
+            }else {
+                if(OpenBrackets.empty()==false){
+                    if(validParentheses(OpenBrackets.top(), s[i])==false)
+                           return false;
+                }else{
                     return false;
-            }
-            else
-                return false;
+                }
+                OpenBrackets.pop();
+            }         
         }
-        if(st.empty())
-            return true;
-        return false;
+        if(OpenBrackets.empty()==false)
+            return false;
+        return true;
     }
 };
