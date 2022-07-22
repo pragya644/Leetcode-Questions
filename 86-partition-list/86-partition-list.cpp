@@ -11,36 +11,24 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        ListNode* newHead = NULL;
-        ListNode* tempNew = NULL;
+        if(head==NULL)
+            return NULL;
+        ListNode* smaller = new ListNode(0);
+        ListNode* temp1 = smaller;
+        ListNode* greater = new ListNode(0);
+        ListNode* temp2 = greater;
         ListNode* temp = head;
         while(temp!=NULL){
-            if(temp->val < x && newHead == NULL){
-                newHead = new ListNode(temp->val);
-                tempNew = newHead;
-            }else if(temp->val < x){
-                tempNew->next = new ListNode(temp->val);
-                tempNew = tempNew->next;
+            if(temp->val < x){
+                temp1->next = new ListNode(temp->val);
+                temp1 = temp1->next;
+            }else{
+                temp2->next = new ListNode(temp->val);
+                temp2 = temp2->next;
             }
             temp = temp->next;
         }
-        ListNode* temp2 = head;
-        ListNode* greaterHead = NULL;
-        ListNode* tempgreater;
-        while(temp2!=NULL){
-            if(temp2->val >= x && greaterHead == NULL){
-                greaterHead = new ListNode(temp2->val); 
-                tempgreater = greaterHead;
-            }else if(temp2->val >= x){
-                tempgreater->next = new ListNode(temp2->val);
-                tempgreater = tempgreater->next;
-            }
-            temp2 = temp2->next;
-        }
-        if(tempNew!=NULL){
-            tempNew->next = greaterHead;
-            return newHead;
-        }
-        return greaterHead;
+        temp1->next = greater->next;
+        return smaller->next;
     }
 };
