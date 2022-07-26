@@ -1,34 +1,28 @@
 class Solution {
 public:
     
-    //time complexity is O(m*n) because visting every node at most once
-    
-    void markWater(int i, int j, vector<vector<char>> &grid)
-    {
-        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || grid[i][j]!='1')
+    void mark(int i, int j, vector<vector<char>> & grid){
+        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || grid[i][j]=='0')
             return;
-        grid[i][j] = '2';
-        markWater(i-1,j,grid);
-        markWater(i+1,j,grid);
-        markWater(i,j-1,grid);
-        markWater(i,j+1,grid);
+        grid[i][j] = '0';
+        mark(i+1,j,grid);
+        mark(i-1,j,grid);
+        mark(i,j+1,grid);
+        mark(i,j-1,grid);
     }
     
     int numIslands(vector<vector<char>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        int ans = 0;
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
-                if(grid[i][j]=='1')
-                {
-                    ans++;
-                    markWater(i,j,grid);
+        int noOfIsland = 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(grid[i][j]== '1'){
+                    noOfIsland++;
+                    mark(i,j,grid);
                 }
             }
         }
-        return ans;
+        return noOfIsland;
     }
 };
