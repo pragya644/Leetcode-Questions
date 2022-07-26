@@ -1,25 +1,21 @@
 class Solution {
 public:
     
-
-    void solve(int i, int j, vector<vector<int>> &image, int prev,int col)
-    {
-        if(i<0 || j<0 || i>=image.size() || j>=image[0].size() || image[i][j]!=prev)
-            return ;
-        int temp = image[i][j];
+    void fillColor(int i, int j,int prevCol, int col, vector<vector<int>> &image){
+        if(i<0 || j<0 || i>=image.size() || j>=image[0].size() || image[i][j]!=prevCol || image[i][j]==col)
+            return;
+        prevCol = image[i][j];
         image[i][j] = col;
-        solve(i+1,j,image,temp,col);
-        solve(i,j+1,image,temp,col);
-        solve(i,j-1,image,temp,col);
-        solve(i-1,j,image,temp,col);
+        fillColor(i+1,j,prevCol,col,image);
+        fillColor(i-1,j,prevCol,col,image);
+        fillColor(i,j+1,prevCol,col,image);
+        fillColor(i,j-1,prevCol,col,image);
     }
     
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+    vector<vector<int>> floodFill(vector<vector<int>>& image,int sr, int sc,int color){
         int n = image.size();
         int m = image[0].size();
-        if(image[sr][sc]==color)
-            return image;
-        solve(sr,sc,image,image[sr][sc],color);
+        fillColor(sr,sc,image[sr][sc], color,image);
         return image;
     }
 };
