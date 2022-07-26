@@ -9,19 +9,17 @@
  */
 class Solution {
 public:
-    
-    
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if(root==NULL)
             return NULL;
-        if(root==p || root==q)
+        if(root->val == p->val || root->val == q->val)
             return root;
-        TreeNode* l = lowestCommonAncestor(root->left, p,q);
-        TreeNode* r = lowestCommonAncestor(root->right, p,q);
-        if(l!=NULL && r!=NULL)
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right, p,q);
+        if(left!=NULL && right!=NULL)
             return root;
-        if(l!=NULL)
-            return l;
-        return r;
+        if(left!=NULL)
+            return left;
+        return right;
     }
 };
