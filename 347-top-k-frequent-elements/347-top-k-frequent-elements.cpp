@@ -1,22 +1,18 @@
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        int n = nums.size();
-        unordered_map<int,int> countOfSameElement;
+        map<int,int> storingFreq;
+        for(auto x: nums){
+            storingFreq[x]++;
+        }
+        priority_queue<pair<int,int>> maxFreq;
+        for(auto x: storingFreq){
+            maxFreq.push({x.second,x.first});
+        }
         vector<int> ans;
-        for(int i=0; i<n; i++)
-        {
-            countOfSameElement[nums[i]]++;
-        }
-        priority_queue<pair<int,int>> pq;
-        for(auto x: countOfSameElement)
-        {
-            pq.push({x.second,x.first});
-        }
-        while(k>0)
-        {
-            auto curr = pq.top();
-            pq.pop();
+        while(k>0){
+            auto curr = maxFreq.top();
+            maxFreq.pop();
             ans.push_back(curr.second);
             k--;
         }
