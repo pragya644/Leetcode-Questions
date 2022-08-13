@@ -10,23 +10,48 @@
  */
 class Solution {
 public:
-    ListNode* sortList(ListNode* head) {
-        vector<int> v;
-        ListNode*temp = head;
-        while(temp!=NULL)
-        {
-            v.push_back(temp->val);
+    
+    ListNode* merge(ListNode* left, ListNode* right){
+        ListNode* curr = new ListNode();
+        ListNode* temp = curr;
+        while(left!=NULL && right!=NULL){
+            if(left->val <= right->val){
+                temp->next = left;
+                temp = temp->next;
+                left = left->next;
+            }else{
+                temp->next = right;
+                temp = temp->next;
+                right = right->next;
+            }
+        }
+        
+        while(left!=NULL){
+            temp->next = left;
             temp = temp->next;
+            left = left->next;
         }
-        sort(v.begin(), v.end());
-        ListNode* newhead = new ListNode();
-        ListNode* curr = newhead;
-        for(auto x: v)
-        {
-            ListNode* left = new ListNode(x);
-            curr->next = left;
-            curr = curr->next;
+        while(right!=NULL){
+            temp->next = right;
+            temp = temp->next;
+            right = right->next;
         }
-        return newhead->next;
+        return curr->next;
+    }
+    
+    ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        ListNode* slow = head;
+        ListNode* fast = head->next->next;
+        while(fast!=NULL && fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        fast = slow->next;
+        slow->next = NULL;
+        ListNode*left = sortList(head);
+        ListNode* right = sortList(fast);
+        return merge(left,right);
     }
 };
