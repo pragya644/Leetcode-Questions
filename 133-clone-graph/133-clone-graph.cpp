@@ -24,24 +24,22 @@ public:
     Node* cloneGraph(Node* node) {
         if(node==NULL)
             return NULL;
-        Node* root = new Node(node->val,{});
-        queue<Node*> q;
+        Node* root = new Node(node->val, {});
         unordered_map<Node*,Node*> m;
         m.insert({node,root});
+        queue<Node*> q;
         q.push(node);
-        while(q.empty()==false)
-        {
+        while(q.empty()==false){
             auto curr = q.front();
             q.pop();
             vector<Node*> currNeigh = curr->neighbors;
-            for(auto neigh: currNeigh)
-            {
-                if(m.find(neigh)==m.end())
-                {
-                    m[neigh] = new Node(neigh->val, {});
-                    q.push(neigh);
+            for(auto x: currNeigh){
+                if(m.find(x)==m.end()){
+                    Node* duplicate = new Node(x->val, {});
+                    m[x] = duplicate;
+                    q.push(x);
                 }
-                m[curr]->neighbors.push_back(m[neigh]);
+                m[curr]->neighbors.push_back(m[x]);
             }
         }
         return root;
