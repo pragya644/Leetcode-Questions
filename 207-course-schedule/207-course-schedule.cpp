@@ -1,45 +1,37 @@
 class Solution {
 public:
-    //tropolgoical sorting
-    // time Complexity would be O(V+E)
-    //space Complexity is O(V+E)
     
-    bool canFinish(int n, vector<vector<int>>& pre) {
-        vector<vector<int>> adj(n);
-        int mustCourse = pre.size();
-        for(int i=0; i<mustCourse; i++)
-        {
-            adj[pre[i][0]].push_back(pre[i][1]);
+    bool isCycle(int i,vector<bool> &vis,vector<bool> &currVis, vector<vector<int>> &adj){
+        if(vis[i]==true){
+            return false;
         }
-        vector<int> inDegree(n,0);
-        for(int i=0; i<n; i++)
-        {
-            for(auto node: adj[i]){
-                inDegree[node]++;
+        vis[i] = true;
+        currVis[i] = true;
+        for(auto x: adj[i]){
+            if(currVis[x]==false && isCycle(x,vis,currVis,adj)){
+                return true;
+            }else if(currVis[x]){
+                return true;
             }
         }
-        queue<int> nodeWith0Degree;
-        for(int i=0; i<n; i++){
-            if(inDegree[i]==0)
-                nodeWith0Degree.push(i);
+        currVis[i] = false;
+        return false;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        for(auto x: prerequisites){
+            adj[x[0]].push_back(x[1]);
         }
-        int visNode = 0;
-        while(nodeWith0Degree.empty()==false)
-        {
-            int currNode = nodeWith0Degree.front();
-            nodeWith0Degree.pop();
-            for(auto node: adj[currNode])
-            {
-                inDegree[node]--;
-                if(inDegree[node]==0)
-                {
-                    nodeWith0Degree.push(node);
+        vector<bool> vis(numCourses,false);
+        vector<bool> currVis(numCourses,false);
+        for(int i=0; i<numCourses; i++){
+            if(vis[i]==false){
+                if(isCycle(i,vis,currVis,adj)){
+                    return false;
                 }
             }
-            visNode++;
         }
-        if(visNode!=n)
-            return false;
         return true;
     }
 };
