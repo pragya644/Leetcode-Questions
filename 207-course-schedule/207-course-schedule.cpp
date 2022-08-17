@@ -1,8 +1,11 @@
 class Solution {
 public:
     
+    // dfs cycle checking
+    //time complexity is O(V+E)
+    
     bool isCycle(int i,vector<bool> &vis,vector<bool> &currVis, vector<vector<int>> &adj){
-        if(vis[i]==true){
+        if(vis[i]==true){ //to prevent tle
             return false;
         }
         vis[i] = true;
