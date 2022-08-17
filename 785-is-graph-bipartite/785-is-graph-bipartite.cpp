@@ -1,39 +1,29 @@
 class Solution {
 public:
-    //bfs
-    //time complexity is O(V+E) bcoz we are every visting node only once;
-    bool solve(int i, vector<vector<int>> &graph, vector<int> &col)
-    {
-        queue<int> q;
-        q.push(i);
-        while(q.empty()==false)
-        {
-            auto curr = q.front();
-            q.pop();
-            for(auto x: graph[curr])
-            {
-                if(col[x]==col[curr])
-                    return false;
-                if(col[x]==0)
-                {
-                    col[x] = -col[curr];
-                    q.push(x);
-                }
+    
+    bool sameColor(int i, vector<int> &color,int currColor, vector<vector<int>>& graph){
+        if(color[i]==0){
+            color[i] = currColor;
+        }
+        for(auto x: graph[i]){
+            if(color[x]==0){
+                if(sameColor(x,color,-color[i], graph))
+                    return true;
+            }else if(color[x]==color[i]){
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
     bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> col(n,0);
-        for(int i=0; i<n; i++)
-        {
-            if(col[i]==0)
-            {
-                col[i] = 1;
-                if(solve(i,graph,col)==false)
-                     return false;
+        int numOfNode = graph.size();
+        vector<int> color(numOfNode, 0);
+        for(int i=0; i<numOfNode; i++){
+            if(color[i]==0){
+                int currColor = 1;
+                if(sameColor(i,color,currColor,graph))
+                    return false;
             }
         }
         return true;
