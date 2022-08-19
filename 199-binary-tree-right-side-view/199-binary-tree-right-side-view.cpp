@@ -11,35 +11,28 @@
  */
 class Solution {
 public:
-    
-    void pushLeftRight(TreeNode* curr, queue<TreeNode*> &q)
-    {
-        if(curr->left!=NULL)
-            q.push(curr->left);
-        if(curr->right!=NULL)
-            q.push(curr->right);
-    }
-    
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
-        if(root==NULL)
-            return ans;
+        if(root==NULL){
+            return {};
+        }
+        vector<int> rightViewNodes;
         queue<TreeNode*> q;
         q.push(root);
-        while(q.empty()==false)
-        {
-            int n = q.size();
-            for(int i=0; i<n-1; i++)
-            {
+        while(q.empty()==false){
+            int size = q.size();
+            while(size>0){
                 auto curr = q.front();
                 q.pop();
-                pushLeftRight(curr,q);
+                if(size==1){
+                    rightViewNodes.push_back(curr->val);
+                }
+                if(curr->left!=NULL)
+                    q.push(curr->left);
+                if(curr->right!=NULL)
+                    q.push(curr->right);
+                size--;
             }
-            auto curr = q.front();
-            q.pop();
-            ans.push_back(curr->val);
-            pushLeftRight(curr,q);
         }
-        return ans;
+        return rightViewNodes;
     }
 };
